@@ -8,6 +8,23 @@ public class dong_gop {
     private String ma_donggop;
     private Date ngay_donggop;
     private int tien_donggop;
+
+    public dong_gop(int inputID, int inputID_nk, String inputMa, int inputTien) {
+    	this.ID = inputID;
+    	this.id_nk = inputID_nk;
+    	this.ma_donggop = inputMa;
+    	this.tien_donggop = inputTien;
+    }
+    
+    
+    public dong_gop(int inputID, int inputID_nk, String inputMa, Date inputNgay, int inputTien) {
+    	this.ID = inputID;
+    	this.id_nk = inputID_nk;
+    	this.ma_donggop = inputMa;
+    	this.ngay_donggop = inputNgay;
+    	this.tien_donggop = inputTien;
+    }
+    
 	public int getID() {
 		return ID;
 	}

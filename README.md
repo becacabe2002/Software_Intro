@@ -34,14 +34,14 @@
 * Borderpane for UC1: sidebar{Trang chu btn, Nhan Khau btn, Ho Khau btn} 
 	- Trang chu: tong so nhan khau, tong so ho khau, nhan khau tam tru, nhan khau tam vang
 	- stackpane Nhan khau:search bar, TableView Nhan Khau, them moi btn, DK tam vang btn, DK tam tru btn, Khai tu btn.
-		+ Screen them moi nhan khau:
-		+ Screen dk tam vang
-		+ Screen dk tam tru
-		+ Screen khai tu
+		+ (Popup scene in new Stage) Screen them moi nhan khau:
+		+ (Popup scene in new Stage) Screen dk tam vang
+		+ (Popup scene in new Stage) Screen dk tam tru
+		+ (Popup scene in new Stage) Screen khai tu
 	- stackpane Ho Khau: search bar, TableView Ho Khau, them moi btn, tach HK btn, chuyen di btn, doi chu ho btn. 
-		+ Screen them moi ho khau: Table view Nhan Khau chua o trong Ho Khau
-		+ Screen tach HK btn: table view Ho Khau, Ma Ho Khau moi, chu ho moi
-		+ Screen chuyen Ho Khau di 
+		+ (Popup scene in new Stage) Screen them moi ho khau: Table view Nhan Khau chua o trong Ho Khau
+		+ (Popup scene in new Stage) Screen tach HK btn: table view Ho Khau, Ma Ho Khau moi, chu ho moi
+		+ (Popup scene in new Stage) Screen chuyen Ho Khau di 
 
 	- Thong ke: table view, search do tuoi, search gioi tich, search tam tru, tam vang
 

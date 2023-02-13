@@ -1,4 +1,4 @@
-package testLogin;
+package application.controller;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -12,6 +12,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+
+import application.database.ConnectDatabase;
+import application.database.UserSession;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -60,7 +63,7 @@ public class LoginController implements Initializable {
                     Stage stage = (Stage) node.getScene().getWindow();
                     //stage.setMaximized(true);
                     stage.close();
-                    Scene scene = new Scene(FXMLLoader.load(getClass().getResource("OnBoard.fxml")));
+                    Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/application/view/Home.fxml")));
                     stage.setScene(scene);
                     stage.show();
 
@@ -90,17 +93,17 @@ public class LoginController implements Initializable {
     //we gonna use string to check for status
     private String logIn() {
         String status = "Success";
-        String email = txtUsername.getText();
+        String username = txtUsername.getText();
         String password = txtPassword.getText();
-        if(email.isEmpty() || password.isEmpty()) {
+        if(username.isEmpty() || password.isEmpty()) {
             setLblError(Color.TOMATO, "Empty credentials");
             status = "Error";
         } else {
             //query
-            String sql = "SELECT * FROM admins Where email = ? and passwrd = ?";
+            String sql = "SELECT * FROM users Where username = ? and pass = ?";
             try {
                 preparedStatement = con.prepareStatement(sql);
-                preparedStatement.setString(1, email);
+                preparedStatement.setString(1, username);
                 preparedStatement.setString(2, password);
                 resultSet = preparedStatement.executeQuery();
                 if (!resultSet.next()) {
@@ -108,6 +111,8 @@ public class LoginController implements Initializable {
                     status = "Error";
                 } else {
                     setLblError(Color.GREEN, "Login Successful..Redirecting..");
+                    UserSession.getInstance().setUsername(resultSet.getString("username"));
+                    UserSession.getInstance().setAdmin_name(resultSet.getString("admin_name"));
                 }
             } catch (SQLException ex) {
                 System.err.println(ex.getMessage());

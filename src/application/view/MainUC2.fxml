@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.MainUC2Controller">
+   <left>
+      <AnchorPane prefHeight="590.0" prefWidth="82.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox layoutY="-1.0" prefHeight="590.0" prefWidth="82.0">
+               <children>
+                  <Button fx:id="ThongKeBtn" mnemonicParsing="false" onAction="#switchWindowUC2" prefHeight="170.0" prefWidth="82.0" style="-fx-background-color: #CC9966; -fx-background-radius: 15;" text="Thống kê" textAlignment="CENTER" wrapText="true">
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="PhiBtn" mnemonicParsing="false" onAction="#switchWindowUC2" prefHeight="170.0" prefWidth="82.0" style="-fx-background-color: #CC9966; -fx-background-radius: 15;" text="Phí" textAlignment="CENTER" wrapText="true">
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="DonggopBtn" mnemonicParsing="false" onAction="#switchWindowUC2" prefHeight="170.0" prefWidth="82.0" style="-fx-background-color: #CC9966; -fx-background-radius: 15;" text="Đóng góp" textAlignment="CENTER" wrapText="true">
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </left>
+   <center>
+      <StackPane fx:id="stackPaneUC2" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <AnchorPane fx:id="PaneThongKe" prefHeight="590.0" prefWidth="1200.0">
+               <children>
+                  <AnchorPane layoutX="51.0" layoutY="353.0" prefHeight="83.0" prefWidth="495.0" style="-fx-background-color: #FFF4C2; -fx-background-radius: 20;">
+                     <children>
+                        <Label layoutX="23.0" layoutY="17.0" prefHeight="42.0" prefWidth="177.0" text="Số hộ đã nộp phí" textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="totalNumberPhi" layoutX="266.0" layoutY="16.0" prefHeight="42.0" prefWidth="177.0" text="00" textAlignment="CENTER" textFill="#4b382c" wrapText="true" AnchorPane.leftAnchor="266.0" AnchorPane.rightAnchor="52.0">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <TableView fx:id="Thongke_tablePhi" layoutX="51.0" layoutY="31.0" prefHeight="306.0" prefWidth="491.0">
+                    <columns>
+                      <TableColumn fx:id="Thongke_tablePhi_ID" prefWidth="52.0" text="ID" />
+                      <TableColumn fx:id="Thongke_tablePhi_maPhi" prefWidth="87.0" text="Mã Phí" />
+                        <TableColumn fx:id="Thongke_tablePhi_tenPhi" prefWidth="180.0" text="Tên Phí" />
+                        <TableColumn fx:id="Thongke_tablePhi_nguoiTao" prefWidth="77.0" text="Người tạo" />
+                        <TableColumn fx:id="Thongke_tablePhi_ngayTao" prefWidth="89.0" text="Ngày tạo" />
+                    </columns>
+                  </TableView>
+                  <AnchorPane layoutX="51.0" layoutY="457.0" prefHeight="83.0" prefWidth="495.0" style="-fx-background-color: #AA7c60; -fx-background-radius: 20;">
+                     <children>
+                        <Label layoutX="23.0" layoutY="17.0" prefHeight="42.0" prefWidth="177.0" text="Tổng thu" textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="totalPhi" layoutX="266.0" layoutY="19.0" prefHeight="42.0" prefWidth="177.0" text="00" textAlignment="CENTER" textFill="#4b382c" wrapText="true" AnchorPane.leftAnchor="266.0" AnchorPane.rightAnchor="52.0">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="631.0" layoutY="353.0" prefHeight="83.0" prefWidth="495.0" style="-fx-background-color: #FFF4C2; -fx-background-radius: 20;">
+                     <children>
+                        <Label layoutX="23.0" layoutY="17.0" prefHeight="51.0" prefWidth="193.0" text="Số đóng góp" textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="totalNumberDG" layoutX="265.0" layoutY="20.0" prefHeight="42.0" prefWidth="177.0" text="00" textAlignment="CENTER" textFill="#4b382c" wrapText="true" AnchorPane.leftAnchor="265.0" AnchorPane.rightAnchor="53.0">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="631.0" layoutY="457.0" prefHeight="83.0" prefWidth="495.0" style="-fx-background-color: #AA7c60; -fx-background-radius: 20;">
+                     <children>
+                        <Label layoutX="23.0" layoutY="17.0" prefHeight="42.0" prefWidth="177.0" text="Tổng đóng góp" textAlignment="CENTER" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="totalDongGop" layoutX="266.0" layoutY="16.0" prefHeight="42.0" prefWidth="177.0" text="00" textAlignment="CENTER" textFill="#4b382c" wrapText="true" AnchorPane.leftAnchor="266.0" AnchorPane.rightAnchor="52.0">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <TableView fx:id="Thongke_tableDongGop" layoutX="631.0" layoutY="31.0" prefHeight="306.0" prefWidth="491.0">
+                     <columns>
+                        <TableColumn fx:id="Thongke_tableDongGop_ID" prefWidth="75.0" text="ID" />
+                        <TableColumn fx:id="Thongke_tableDongGop_maDG" prefWidth="81.0" text="Mã ĐG" />
+                        <TableColumn fx:id="Thongke_tableDongGop_TenDS" prefWidth="189.0" text="Tên DS Đóng Góp" />
+                        <TableColumn fx:id="Thongke_tableDongGop_nguoiTao" prefWidth="95.0" text="Người tạo" />
+                        <TableColumn fx:id="Thongke_tableDongGop_ngayTao" prefWidth="100.0" text="Ngày tạo" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="PanePhi" prefHeight="590.0" prefWidth="1200.0" visible="false">
+               <children>
+                  <TableView fx:id="Phi_tableDS" layoutX="62.0" layoutY="74.0" prefHeight="387.0" prefWidth="491.0">
+                     <columns>
+                        <TableColumn fx:id="Phi_tableDS_ID" prefWidth="52.0" text="ID" />
+                        <TableColumn fx:id="Phi_tableDS_Ma" prefWidth="87.0" text="Mã Phí" />
+                        <TableColumn fx:id="Phi_tableDS_Ten" prefWidth="180.0" text="Tên Phí" />
+                        <TableColumn fx:id="Phi_tableDS_nguoiTao" prefWidth="77.0" text="Người tạo" />
+                        <TableColumn fx:id="Phi_tableDS_ngayTao" prefWidth="89.0" text="Ngày tạo" />
+                     </columns>
+                  </TableView>
+                  <TableView fx:id="Phi_tableRecord" layoutX="618.0" layoutY="75.0" prefHeight="385.0" prefWidth="491.0">
+                     <columns>
+                        <TableColumn fx:id="Phi_tableRecord_ID" prefWidth="52.0" text="ID" />
+                        <TableColumn fx:id="Phi_tableRecord_idHK" prefWidth="125.0" text="ID Hộ Khẩu" />
+                        <TableColumn fx:id="Phi_tableRecord_fee" prefWidth="120.0" text="Cần đóng" />
+                        <TableColumn fx:id="Phi_tableRecord_status" prefWidth="84.0" text="Tình trạng" />
+                        <TableColumn fx:id="Phi_tableRecord_ngayDong" prefWidth="108.0" text="Ngày đóng" />
+                     </columns>
+                  </TableView>
+                  <HBox layoutX="269.0" layoutY="498.0">
+                     <children>
+                        <Button fx:id="Phi_detailBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Xem chi tiết">
+                           <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="Phi_addPhiBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Thêm Phí">
+                           <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="Phi_addRecordBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Ghi nhận đóng phí">
+                           <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="PaneDongGop" prefHeight="590.0" prefWidth="1200.0" visible="false">
+               <children>
+                  <TableView fx:id="DongGop_tableDS" layoutX="68.0" layoutY="27.0" prefHeight="424.0" prefWidth="536.0">
+                     <columns>
+                        <TableColumn fx:id="DongGop_tableDS_ID" prefWidth="75.0" text="ID" />
+                        <TableColumn fx:id="DongGop_tableDS_ma" prefWidth="81.0" text="Mã ĐG" />
+                        <TableColumn fx:id="DongGop_tableDS_tenDS" prefWidth="189.0" text="Tên DS Đóng Góp" />
+                        <TableColumn fx:id="DongGop_tableDS_nguoiTao" prefWidth="95.0" text="Người tạo" />
+                        <TableColumn fx:id="DongGop_tableDS_ngayTao" prefWidth="100.0" text="Ngày tạo" />
+                     </columns>
+                  </TableView>
+                  <TableView fx:id="DongGop_tableRecord" layoutX="635.0" layoutY="28.0" prefHeight="423.0" prefWidth="494.0">
+                     <columns>
+                        <TableColumn fx:id="DongGop_tableRecord_ID" prefWidth="46.0" text="ID" />
+                        <TableColumn fx:id="DongGop_tableRecord_idNK" prefWidth="74.0" text="ID NK" />
+                        <TableColumn fx:id="DongGop_tableRecord_nameNK" prefWidth="180.0" text="Tên" />
+                        <TableColumn fx:id="DongGop_tableRecord_Sotien" prefWidth="96.0" text="Số tiền" />
+                        <TableColumn fx:id="DongGop_tableRecord_ngayDong" prefWidth="97.0" text="Ngày đónggóp" />
+                     </columns>
+                  </TableView>
+                  <HBox layoutX="274.0" layoutY="475.0">
+                     <children>
+                        <Button fx:id="DongGop_detailBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Xem chi tiết">
+                           <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="DongGop_addDSBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Thêm DS đóng góp">
+                           <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="DongGop_addRecordBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Ghi nhận đóng góp">
+                           <HBox.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </children>
+      </StackPane>
+   </center>
+</BorderPane>

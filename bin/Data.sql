@@ -185,11 +185,19 @@ create table dong_gop(
 -- >> tao chi muc cho cac bang da do du lieu
 -- cho bang users
 
+alter table users
+	add primary key (ID);
+    
+alter table users
+modify ID int(11) auto_increment, auto_increment = 3;
 
 -- cho bang so_ho_khau
+alter table so_ho_khau
+	add primary key (ID),
+    add key (nguoi_tao);
 
 -- cho bang nhan_khau
-
+alter table
 -- cho bang can_cuoc
 
 -- cho bang khai_tu

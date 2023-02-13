@@ -1,4 +1,4 @@
-package testLogin;
+package application.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,7 +9,7 @@ public class ConnectDatabase {
 	public static Connection getConnection() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/testlogin", "root", "29123498");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cnpm", "root", "29123498");
 			return con;
 		} catch (SQLException | ClassNotFoundException e) {
 			System.err.println("ConnectionUtil : "+e.getMessage());
