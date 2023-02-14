@@ -19,6 +19,16 @@ public class thu_phi {
     	this.ma_phi = ma_phi;
     	this.fee_hk = total_fee;
     }
+    
+    public thu_phi(int ID, int id_hk, String ma_phi, int total_fee, boolean state) {
+    	this.ID = ID;
+    	this.id_hk = id_hk;
+    	this.ma_phi = ma_phi;
+    	this.fee_hk = total_fee;
+    	this.pay_state = state;
+    	java.util.Date CurrDate = new java.util.Date();
+		 this.pay_date = new Date(CurrDate.getTime());
+    }
 	public int getID() {
 		return ID;
 	}
