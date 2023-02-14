@@ -9,7 +9,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 
 public class MainUC1Controller {
 
@@ -24,9 +23,6 @@ public class MainUC1Controller {
 
     @FXML
     private Button HoKhau_moveBtn;
-
-    @FXML
-    private Button HoKhau_searchBtn;
 
     @FXML
     private TextField HoKhau_searchField;
@@ -74,9 +70,6 @@ public class MainUC1Controller {
     private Button NhanKhau_addTamVangBtn;
 
     @FXML
-    private Button NhanKhau_searchBtn;
-
-    @FXML
     private TextField NhanKhau_searchField;
 
     @FXML
@@ -99,9 +92,6 @@ public class MainUC1Controller {
 
     @FXML
     private TableColumn<?, ?> NhanKhau_table_nationality;
-
-    @FXML
-    private TableColumn<?, ?> NhanKhau_table_note;
 
     @FXML
     private TableColumn<?, ?> NhanKhau_table_relation;
@@ -180,15 +170,12 @@ public class MainUC1Controller {
 
     @FXML
     private AnchorPane paneNhanKhau;
-    
+
     @FXML
     private AnchorPane paneThongKe;
 
     @FXML
     private AnchorPane paneTongQuan;
-    
-    @FXML
-    private StackPane stackPaneUC2;
 
     @FXML
     void switchWindowUC1(ActionEvent event) {

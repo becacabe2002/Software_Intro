@@ -1,4 +1,5 @@
 package application.controller;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -6,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 
 public class MainUC2Controller {
 
@@ -14,9 +16,6 @@ public class MainUC2Controller {
 
     @FXML
     private Button DongGop_addRecordBtn;
-
-    @FXML
-    private Button DongGop_detailBtn;
 
     @FXML
     private TableView<?> DongGop_tableDS;
@@ -55,6 +54,9 @@ public class MainUC2Controller {
     private TableColumn<?, ?> DongGop_tableRecord_ngayDong;
 
     @FXML
+    private Label DongGop_total_label;
+
+    @FXML
     private Button DonggopBtn;
 
     @FXML
@@ -74,9 +76,6 @@ public class MainUC2Controller {
 
     @FXML
     private Button Phi_addRecordBtn;
-
-    @FXML
-    private Button Phi_detailBtn;
 
     @FXML
     private TableView<?> Phi_tableDS;
@@ -113,6 +112,9 @@ public class MainUC2Controller {
 
     @FXML
     private TableColumn<?, ?> Phi_tableRecord_status;
+
+    @FXML
+    private Label Phi_total_label;
 
     @FXML
     private Button ThongKeBtn;
@@ -154,13 +156,16 @@ public class MainUC2Controller {
     private TableColumn<?, ?> Thongke_tablePhi_tenPhi;
 
     @FXML
+    private Label percentageNumberPhi;
+
+    @FXML
+    private StackPane stackPaneUC2;
+
+    @FXML
     private Label totalDongGop;
 
     @FXML
     private Label totalNumberDG;
-
-    @FXML
-    private Label totalNumberPhi;
 
     @FXML
     private Label totalPhi;
