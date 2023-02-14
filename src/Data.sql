@@ -27,7 +27,7 @@ ma_shk varchar(20) unique not null,
 ma_kv varchar(20) not null,
 dia_chi varchar(100) not null,
 ngay_lap date not null, -- can insert curdate()
-ngay_chuyen date default null,
+ngay_chuyen date default null, -- can insert curdate()
 lydo_chuyen varchar(100) default null, 
 nguoi_tao varchar(100) not null -- lien ket voi username cua users
 );
@@ -55,7 +55,7 @@ ID int(11) unique not null,
 
 create table nhan_khau( -- thong tin cua nhan khau
 ID int(11) unique not null,
- id_hk bigint default null, -- foreign key toi ho_khau(ID)
+ id_hk int(11) default null, -- foreign key toi ho_khau(ID)
  ho_ten varchar(100) not null,
  dob date not null,
  nationality varchar(100) default 'VN',
@@ -151,13 +151,15 @@ create table ds_phi(
 
 -- do du lieu cho bang ds_phi
 
+set @curdate = curdate();
+
 create table thu_phi(
 	ID int(11) primary key auto_increment,
 	id_hk int(11) not null, -- foreign key HoKhau('ID')
     ma_phi varchar(10) not null, -- foreign key ds_phi(ma_phi)
-    fee_hk bigint not null, -- = tien_per_nk * so NhanKhau
+    fee_hk int(11) not null, -- = tien_per_nk * so NhanKhau
     pay_state boolean default false, -- true cho da dong, false cho chua dong
-    pay_date date not null -- default curdate()
+    pay_date date default null
 );
 
 -- do du lieu cho bang thu_phi
@@ -192,95 +194,109 @@ modify ID int(11) auto_increment, auto_increment = 3;
 -- cho bang so_ho_khau
 alter table so_ho_khau
 	add primary key (ID),
-    add key UserName (nguoi_tao),
+    -- add key index_username (nguoi_tao),
     modify ID int(11) auto_increment, auto_increment = 6;
 
 -- cho bang changes_history
 alter table changes_history
 	add primary key (ID),
-    add key UserName(username),
-    add key idHoKhau(id_hk),
+    -- add key index_username (username),
+    -- add key index_id_ho_khau (id_hk),
     modify ID int(11) auto_increment;
     
 -- cho bang nhan_khau
 alter table nhan_khau
 	add primary key (ID),
-    add key idHoKhau(id_hk),
-    add key UserName(nguoi_tao),
+    -- add key index_id_ho_khau (id_hk),
+    -- add key index_username (nguoi_tao),
     modify ID int(11) auto_increment, auto_increment = 17;
     
 -- cho bang can_cuoc
 alter table can_cuoc
 	add primary key(ID),
-    add key idNhanKhau(id_nk),
+    -- add key index_id_nhan_khau(id_nk),
     modify ID int(11) auto_increment, auto_increment = 11;
 
 -- cho bang khai_tu
-alter table khai_tu
-	add key idNhanKhauMat(id_mat),
-    add key idNhanKhauKhai(id_khai);
+-- alter table khai_tu
+	-- add key index_id_nhan_khau_mat (id_mat),
+    -- add key index_id_nhan_khau_khai (id_khai);
 
 -- cho bang tam_tru
-alter table tam_tru
-	add key idNhanKhau(id_nk);
+-- alter table tam_tru
+	-- add key index_id_nhan_khau (id_nk);
 
 -- cho bang tam_vang
-alter table tam_vang
-	add key idNhanKhau(id_nk);
+-- alter table tam_vang
+	-- add key index_id_nhan_khau (id_nk);
 
 -- cho bang ds_phi
-alter table ds_phi
-	add key UserName(nguoi_tao);
+-- alter table ds_phi
+	-- add key index_username (nguoi_tao);
 
 -- cho bang thu_phi
-alter table thu_phi
-	add key idHoKhau(id_hk),
-    add key maPhi(ma_phi);
+-- alter table thu_phi
+	-- add key index_id_ho_khau (id_hk),
+    -- add key index_ma_phi (ma_phi);
 
 -- cho bang ds_donggop
-alter table ds_donggop
-	add key UserName(nguoi_tao);
+-- alter table ds_donggop
+	-- add key index_username (nguoi_tao);
 
 -- cho bang dong_gop
-alter table dong_gop
-	add key idNhanKhau(id_nk),
-    add key maDongGop(ma_donggop);
+-- alter table dong_gop
+	-- add key index_id_nhan_khau (id_nk),
+    -- add key index_ma_donggop (ma_donggop);
 
 -- >> tao cac rang buoc cho cac bang
 -- cho bang so_ho_khau
 alter table so_ho_khau
-	add constraint so_ho_khau_ibfk1 foreign key (UserName) references users(username);
+	add constraint so_ho_khau_ibfk1 foreign key (nguoi_tao) references users(username);
 
 -- cho bang changes_history
 alter table changes_history
-	add constraint changes_history_ibfk1 foreign key (UserName) references users(username),
-    add constraint changes_history_ibfk2 foreign key (idHoKhau) references so_ho_khau(ID);
+	add constraint changes_history_ibfk1 foreign key (username) references users(username),
+    add constraint changes_history_ibfk2 foreign key (id_hk) references so_ho_khau(ID);
     
 -- cho bang nhan_khau
 alter table nhan_khau
-	add constraint nhan_khau_ibfk1 foreign key (idHoKhau) references so_ho_khau(ID),
-	add constraint nhan_khau_ibfk2 foreign key (UserName) references users(username);
+	add constraint nhan_khau_ibfk1 foreign key (id_hk) references so_ho_khau(ID),
+	add constraint nhan_khau_ibfk2 foreign key (nguoi_tao) references users(username);
 
 -- cho bang can_cuoc
 alter table can_cuoc
-	add constraint can_cuoc_ibfk1 foreign key (idNhanKhau) references nhan_khau(ID);
+	add constraint can_cuoc_ibfk1 foreign key (id_nk) references nhan_khau(ID);
     
 -- cho bang khai_tu
 alter table khai_tu
-	add constraint khai_tu_ibfk1 foreign key (idNhanKhauMat) references nhan_khau(ID),
-    add constraint khai_tu_ibfk2 foreign key (idNhanKhauKhai) references nhan_khau(ID);
+	add constraint khai_tu_ibfk1 foreign key (id_mat) references nhan_khau(ID),
+    add constraint khai_tu_ibfk2 foreign key (id_khai) references nhan_khau(ID);
     
 -- cho bang tam_tru
 alter table tam_tru
-	add constraint tam_tru_ibfk1 foreign key (idNhanKhau) references nhan_khau(ID);
+	add constraint tam_tru_ibfk1 foreign key (id_nk) references nhan_khau(ID);
     
 -- cho bang tam_vang
 alter table tam_vang
-	add constraint tam_vang_ibfk1 foreign key (idNhanKhau) references nhan_khau(ID);
+	add constraint tam_vang_ibfk1 foreign key (id_nk) references nhan_khau(ID);
     
 -- cho bang ds_phi
+alter table ds_phi
+	add constraint ds_phi_ibfk1 foreign key (nguoi_tao) references users(username);
 
--- cho bang 
+-- cho bang thu_phi
+alter table thu_phi
+	add constraint thu_phi_ibfk1 foreign key (id_hk) references so_ho_khau(ID),
+    add constraint thu_phi_ibfk2 foreign key (ma_phi) references ds_phi(ma_phi);
+
+-- cho bang ds_donggop
+alter table ds_donggop
+	add constraint ds_donggop_ibfk1 foreign key (nguoi_tao) references users(username);
+
+-- cho bang dong_gop
+alter table dong_gop
+	add constraint dong_gop_ibfk1 foreign key (id_nk) references nhan_khau(ID),
+    add constraint dong_gop_ibfk2 foreign key (ma_donggop) references ds_donggop(ma_donggop);
     
 -- >> tao cac procedure:
 
