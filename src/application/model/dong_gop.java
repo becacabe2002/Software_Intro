@@ -1,19 +1,25 @@
 package application.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class dong_gop {
-	private int ID;
-    private int id_nk;
-    private String ma_donggop;
-    private Date ngay_donggop;
-    private int tien_donggop;
+	private int ID;// not null
+    private int id_nk;// not null
+    private String ma_donggop;// not null
+    private Date ngay_donggop;// default current date
+    private int tien_donggop;// not null
 
+    public dong_gop() {
+    	
+    }
+    
     public dong_gop(int inputID, int inputID_nk, String inputMa, int inputTien) {
     	this.ID = inputID;
     	this.id_nk = inputID_nk;
     	this.ma_donggop = inputMa;
     	this.tien_donggop = inputTien;
+    	java.util.Date CurrDate = new java.util.Date();
+		 this.ngay_donggop = new Date(CurrDate.getTime());
     }
     
     
