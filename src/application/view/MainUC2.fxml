@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.MainUC2Controller">
    <left>
@@ -43,6 +44,9 @@
                      </font>
                   </Button>
                </children>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
             </VBox>
          </children>
       </AnchorPane>
@@ -54,12 +58,12 @@
                <children>
                   <AnchorPane layoutX="51.0" layoutY="353.0" prefHeight="83.0" prefWidth="495.0" style="-fx-background-color: #FFF4C2; -fx-background-radius: 20;">
                      <children>
-                        <Label layoutX="23.0" layoutY="17.0" prefHeight="42.0" prefWidth="177.0" text="Số hộ đã nộp phí" textAlignment="CENTER" wrapText="true">
+                        <Label layoutX="23.0" layoutY="17.0" prefHeight="42.0" prefWidth="177.0" text="Phần trăm trung bình" textAlignment="CENTER" wrapText="true">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="totalNumberPhi" layoutX="266.0" layoutY="16.0" prefHeight="42.0" prefWidth="177.0" text="00" textAlignment="CENTER" textFill="#4b382c" wrapText="true" AnchorPane.leftAnchor="266.0" AnchorPane.rightAnchor="52.0">
+                        <Label fx:id="percentageNumberPhi" layoutX="266.0" layoutY="16.0" prefHeight="42.0" prefWidth="177.0" text="00" textAlignment="CENTER" textFill="#4b382c" wrapText="true" AnchorPane.leftAnchor="266.0" AnchorPane.rightAnchor="52.0">
                            <font>
                               <Font name="System Bold" size="30.0" />
                            </font>
@@ -148,13 +152,8 @@
                         <TableColumn fx:id="Phi_tableRecord_ngayDong" prefWidth="108.0" text="Ngày đóng" />
                      </columns>
                   </TableView>
-                  <HBox layoutX="269.0" layoutY="498.0">
+                  <HBox layoutX="88.0" layoutY="494.0">
                      <children>
-                        <Button fx:id="Phi_detailBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Xem chi tiết">
-                           <HBox.margin>
-                              <Insets left="10.0" right="10.0" />
-                           </HBox.margin>
-                        </Button>
                         <Button fx:id="Phi_addPhiBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Thêm Phí">
                            <HBox.margin>
                               <Insets left="10.0" right="10.0" />
@@ -167,6 +166,20 @@
                         </Button>
                      </children>
                   </HBox>
+                  <AnchorPane layoutX="646.0" layoutY="488.0" prefHeight="63.0" prefWidth="355.0" style="-fx-background-color: #FFF4C2; -fx-background-radius: 17;">
+                     <children>
+                        <Text layoutX="37.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tổng số tiền thu được" wrappingWidth="110.83154296875">
+                           <font>
+                              <Font name="System Bold" size="17.0" />
+                           </font>
+                        </Text>
+                        <Label fx:id="Phi_total_label" alignment="CENTER" layoutX="155.0" layoutY="14.0" prefHeight="36.0" prefWidth="195.0" text="0.$" textAlignment="CENTER" textFill="#8e603b">
+                           <font>
+                              <Font name="System Bold Italic" size="25.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
                </children>
             </AnchorPane>
             <AnchorPane fx:id="PaneDongGop" prefHeight="590.0" prefWidth="1200.0" visible="false">
@@ -189,13 +202,8 @@
                         <TableColumn fx:id="DongGop_tableRecord_ngayDong" prefWidth="97.0" text="Ngày đónggóp" />
                      </columns>
                   </TableView>
-                  <HBox layoutX="274.0" layoutY="475.0">
+                  <HBox layoutX="116.0" layoutY="485.0">
                      <children>
-                        <Button fx:id="DongGop_detailBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Xem chi tiết">
-                           <HBox.margin>
-                              <Insets left="10.0" right="10.0" />
-                           </HBox.margin>
-                        </Button>
                         <Button fx:id="DongGop_addDSBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Thêm DS đóng góp">
                            <HBox.margin>
                               <Insets left="10.0" right="10.0" />
@@ -208,6 +216,20 @@
                         </Button>
                      </children>
                   </HBox>
+                  <AnchorPane layoutX="705.0" layoutY="479.0" prefHeight="63.0" prefWidth="355.0" style="-fx-background-color: #FFF4C2; -fx-background-radius: 17;">
+                     <children>
+                        <Text layoutX="37.0" layoutY="25.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tổng số tiền thu được" wrappingWidth="110.83154296875">
+                           <font>
+                              <Font name="System Bold" size="17.0" />
+                           </font>
+                        </Text>
+                        <Label fx:id="DongGop_total_label" alignment="CENTER" layoutX="155.0" layoutY="14.0" prefHeight="36.0" prefWidth="195.0" text="0.$" textAlignment="CENTER" textFill="#8e603b">
+                           <font>
+                              <Font name="System Bold Italic" size="25.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
                </children>
             </AnchorPane>
          </children>
