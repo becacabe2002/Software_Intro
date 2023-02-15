@@ -54,7 +54,7 @@
    <center>
       <StackPane fx:id="stackPaneUC2" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane fx:id="PaneThongKe" prefHeight="590.0" prefWidth="1200.0">
+            <AnchorPane fx:id="PaneThongKe" prefHeight="590.0" prefWidth="1200.0" visible="false">
                <children>
                   <AnchorPane layoutX="51.0" layoutY="353.0" prefHeight="83.0" prefWidth="495.0" style="-fx-background-color: #FFF4C2; -fx-background-radius: 20;">
                      <children>
@@ -182,7 +182,7 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="PaneDongGop" prefHeight="590.0" prefWidth="1200.0" visible="false">
+            <AnchorPane fx:id="PaneDongGop" prefHeight="590.0" prefWidth="1200.0">
                <children>
                   <TableView fx:id="DongGop_tableDS" layoutX="68.0" layoutY="27.0" prefHeight="424.0" prefWidth="536.0">
                      <columns>

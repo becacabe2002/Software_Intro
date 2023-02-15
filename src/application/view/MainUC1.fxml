@@ -65,7 +65,7 @@
    <center>
       <StackPane prefHeight="510.0" prefWidth="684.0" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane fx:id="paneTongQuan" prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane fx:id="paneTongQuan" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
                   <AnchorPane layoutX="115.0" layoutY="104.0" prefHeight="145.0" prefWidth="507.0" style="-fx-background-color: #AADDEC; -fx-border-radius: 20; -fx-background-radius: 20;">
                      <children>
@@ -142,15 +142,15 @@
                   <TextField fx:id="NhanKhau_searchField" layoutX="32.0" layoutY="35.0" prefHeight="25.0" prefWidth="440.0" />
                   <VBox layoutX="1077.0" layoutY="78.0" spacing="40.0">
                      <children>
-                        <Button fx:id="NhanKhau_addBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Them moi" />
-                        <Button fx:id="NhanKhau_addTamTruBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="DK tam tru" />
-                        <Button fx:id="NhanKhau_addTamVangBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="DK tam vang" />
-                        <Button fx:id="NhanKhau_addKhaiTuBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Khai tu" />
+                        <Button fx:id="NhanKhau_addBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #77C3EC;" text="Thêm mới" />
+                        <Button fx:id="NhanKhau_addTamTruBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="ĐK tạm trú" />
+                        <Button fx:id="NhanKhau_addTamVangBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="ĐK tạm vắng" />
+                        <Button fx:id="NhanKhau_addKhaiTuBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Khai tử" />
                      </children>
                   </VBox>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="paneHoKhau" layoutX="10.0" layoutY="10.0" prefHeight="510.0" prefWidth="1200.0">
+            <AnchorPane fx:id="paneHoKhau" layoutX="10.0" layoutY="10.0" prefHeight="510.0" prefWidth="1200.0" visible="false">
                <children>
                   <TableView fx:id="HoKhau_table" layoutX="32.0" layoutY="78.0" prefHeight="403.0" prefWidth="510.0" AnchorPane.bottomAnchor="29.0" AnchorPane.leftAnchor="32.0" AnchorPane.rightAnchor="142.0" AnchorPane.topAnchor="78.0">
                      <columns>
@@ -166,7 +166,7 @@
                   <TextField fx:id="HoKhau_searchField" layoutX="32.0" layoutY="35.0" prefHeight="25.0" prefWidth="440.0" />
                   <VBox layoutX="1077.0" layoutY="78.0" spacing="40.0">
                      <children>
-                        <Button fx:id="HoKhau_addBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Thêm mới" />
+                        <Button fx:id="HoKhau_addBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #77C3EC;" text="Thêm mới" />
                         <Button fx:id="HoKhau_splitBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Tách HK" />
                         <Button fx:id="HoKhau_moveBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Chuyển đi" />
                         <Button fx:id="HoKhau_changeOwnerBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Đổi chủ hộ" />
