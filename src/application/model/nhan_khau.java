@@ -16,14 +16,14 @@ public class nhan_khau {
 	private String hoc_van; // default null
 	private String occupation;// default null
 	private String work_address;// default null
-	private String address;// default null
+	private String address;// default null -- the same with home
 	private String relation_owner; // default null
 	private String nguoi_tao;//not null
 	private Date create_date;//not null
 	private String note;//default null
 	
 	public nhan_khau() {}
-	
+	// this constructor used when adding nhan_khau
 	public nhan_khau(int ID, int id_hk, String ho_ten, 
 			Date dob, String sex, String ethnic_group) {
 		this.ID = ID;
@@ -36,6 +36,20 @@ public class nhan_khau {
 		java.util.Date CurrDate = new java.util.Date();
 		this.create_date = new Date(CurrDate.getTime());
 	}
+	
+	public nhan_khau(int ID, int id_hk, String ho_ten, Date dob, String nation, String sex,
+					String relation_owner, String creator, Date createDate) {
+		this.ID = ID;
+		this.id_hk = id_hk;
+		this.ho_ten = ho_ten;
+		this.dob = dob;
+		this.nationality = nation;
+		this.sex = sex;
+		this.relation_owner = relation_owner;
+		this.nguoi_tao = creator;
+		this.create_date = createDate;
+	}
+	
 	
 	public int getID() {
 		return ID;
@@ -133,7 +147,6 @@ public class nhan_khau {
 	public void setNote(String note) {
 		this.note = note;
 	}
-	
 	
 	
 }

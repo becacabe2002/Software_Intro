@@ -302,11 +302,6 @@ alter table dong_gop
     
 -- >> tao cac procedure:
 
-create procedure add_cccd_nk() -- proc2
-begin
-	
-end;
-
 /* -- select nhan khau chua co can cuoc
 select nhan_khau.id as ID, nhan_khau.ho_ten as NKName
 from nhan_khau
@@ -315,37 +310,120 @@ on nhan_khau.id = can_cuoc.id_nk
 where can_cuoc.id_nk is null;
 */
 
-create procedure new_nk() -- proc3
+-- in form add_nk_hk, a table view with nhan_khau whose id_hk is null
+-- you type in id_hk and select nhan_khaus that you prefer to add in. 
+-- this procedure gone be called many time.
+
+drop procedure if exists add_nk_hk ; 
+
+delimiter $$
+
+create procedure add_nk_hk(IN id_hk int,IN id_nk int, IN relation varchar(20), IN username varchar(20)) -- proc5
 begin
-	
-end;
+select dia_chi into @address from so_ho_khau
+where ID = id_hk;
 
-create procedure new_hk() -- proc4
+select ho_ten into @new_mem from nhan_khau
+where ID = id_nk;
+
+update nhan_khau
+set id_hk = id_hk,
+address = @address,
+relation_owner = relation
+where ID = id_nk;
+
+insert into changes_history(username, id_hk, changed_info, old_info, new_info, change_date)
+values (username, id_hk, 'Them nhan khau vao ho', " " , @new_mem, curdate());
+end $$
+
+delimiter ;
+
+ -- insert into nhan_khau(ho_ten, dob, ethnic_group, sex, religion, hoc_van, nguoi_tao, create_date)
+ -- values ('Bui Quang Hien', str_to_date('1989 12 13', '%Y %m %d'), 'Kinh', 'Male', null, '12/12', 'admin', curdate());
+-- select * from nhan_khau where address is null;
+-- call add_nk_hk(5, 17,'Nguoi than', 'admin');
+-- select * from nhan_khau where ID = 17;
+-- select * from changes_history;
+-- select * from nhan_khau where id_hk = 5;
+
+drop procedure if exists create_hk;
+
+delimiter $$
+-- proc dung tao moi shk
+-- tao shk, them chu ho
+create procedure create_hk(IN ma_shk varchar(20), IN ma_kv varchar(20), IN dia_chi varchar(100), IN id_owner int, IN username varchar(20)) -- proc6
 begin
+declare temp int;
 
-end;
+insert into so_ho_khau(ma_shk, ma_kv, dia_chi, ngay_lap, nguoi_tao)
+values (ma_shk, ma_kv, dia_chi, curdate(), username);
 
-create procedure add_nk_hk() -- proc5
+select MAX(ID) into temp from so_ho_khau;
+
+insert into changes_history(username, id_hk, changed_info, old_info, new_info, change_date)
+values (username, temp, 'So ho khau duoc tao moi', ' ', ma_shk, curdate());
+
+call add_nk_hk(temp, id_owner, 'Chu ho', username);
+end $$
+
+delimiter ;
+
+-- call create_hk('HBT-001', 'HN', 'so 12 duong XYZ Quan Hai Ba Trung', 18, 'admin');
+-- select * from so_ho_khau;
+
+drop procedure if exists move_hk;
+
+delimiter $$
+
+create procedure move_hk(IN id_hk int, IN newDest varchar(100),IN lydo varchar(100), IN username varchar(100)) -- proc7
 begin
+declare prvDest varchar(100);
+declare nwDest varchar(100);
 
-end;
+select dia_chi into prvDest from so_ho_khau
+where ID = id_hk;
 
-create procedure split_hk() -- proc6
-begin
+update so_ho_khau
+set dia_chi = newDest,
+ngay_chuyen = curdate(),
+lydo_chuyen = lydo
+where ID = id_hk ;
 
-end;
+update nhan_khau
+set address = newDest
+where id_hk = id_hk;
 
-create procedure move_hk() -- proc7
-begin
+select dia_chi into nwDest from so_ho_khau
+where ID = id_hk;
 
-end;
+insert into changes_history(username, id_hk, changed_info, old_info, new_info, change_date)
+values (username, id_hk, 'Thay doi dia chi', prvDest, nwDest, curdate());
+end $$
+
+delimiter ;
+
+-- call move_hk(1, 'so 8 ngho 5 Khuong Trung Ha Noi', 'thich thi chuyen thoi', 'admin');
+-- select * from nhan_khau where id_hk = 1;
+-- select so_ho_khau.*, changes_history.changed_info, changes_history.old_info,changes_history.new_info, changes_history.change_date 
+-- from so_ho_khau left join changes_history on so_ho_khau.id = changes_history.id_hk;
+
 
 drop procedure if exists change_owner;
 
 delimiter $$
+-- thay doi chu cua ho khau thanh nguoi duoc chon
+-- chuyen relation_owner cua cac thanh vien con lai sang 'Nguoi than'
+-- chuyen relation_owner cua chu ho moi thanh 'Chu ho'
+-- ghi nhan thay doi trong tabel changes_history 
 
-create procedure change_owner(IN id_hk int, IN id_newCH int) -- proc8
+create procedure change_owner(IN id_hk int, IN id_newCH int, IN username varchar(20)) -- proc8
 begin
+declare prvOwner varchar(20);
+declare nwOwner varchar(20);
+
+select ho_ten into prvOwner from nhan_khau
+where id_hk = id_hk and relation_owner = 'Chu ho';
+
 update nhan_khau
 set relation_owner = 'Nguoi than'
 where id_hk = id_hk;
@@ -353,13 +431,20 @@ where id_hk = id_hk;
 update nhan_khau
 set relation_owner = 'Chu ho'
 where id_hk = id_hk and ID = id_newCH;
+
+select ho_ten into nwOwner from nhan_khau
+where id_hk = id_hk and relation_owner = 'Chu ho';
+
+insert into changes_history(username, id_hk, changed_info, old_info, new_info, change_date)
+values (username, id_hk, 'Thay doi chu ho', prvOwner, nwOwner, curdate());
 end $$
 
 delimiter ;
 
+-- select * from nhan_khau where relation_owner = 'Nguoi than' id_hk in (select MIN(ID) from so_ho_khau);
+-- call change_owner(2,5, 'admin');
 -- select * from nhan_khau where id_hk in (select MIN(ID) from so_ho_khau);
--- call change_owner(1,1);
--- select * from nhan_khau where id_hk in (select MIN(ID) from so_ho_khau);
+-- select * from changes_history;
 
 drop procedure if exists add_tam_vang;
 
@@ -381,13 +466,18 @@ else
 	insert into tam_vang (id_nk, start_date, end_date, destination)
     values (id_nguoi_khai, startDate, endDate, dest);
     set notification = 'Tam vang da duoc them vao.';
+    
+    update nhan_khau 
+    set  address = dest
+    where ID = id_nguoi_khai;
 end if;
 end $$
 
 delimiter ;
 
--- call add_tam_vang(15,str_to_date('2023 03 01', '%Y %m %d'), str_to_date('2023 03 11', '%Y %m %d'), 'so 8 ngho 2 Phuong Mai', @rtnVal);
--- select @rtnVal;
+call add_tam_vang(16,str_to_date('2023 04 01', '%Y %m %d'), str_to_date('2023 04 20', '%Y %m %d'), 'so 8 ngho 2 Phuong Mai', @rtnVal);
+select @rtnVal;
+select * from nhan_khau;
 
 drop procedure if exists add_tam_tru;
 
@@ -491,31 +581,54 @@ END $$
 
 delimiter ;
 
-
-create procedure summary_info_cs2() -- proc13
-begin
-
-end;
-
-create procedure new_ds_phi() -- proc14
-begin
-
-end;
-
-create procedure add_pay_record() -- proc15
-begin
-
-end;
-
-create procedure new_ds_donggop() -- proc16
-begin
-
-end;
-
-create procedure add_contribute_record() -- proc17
-begin
-
-end;
 -- need a trigger to create a new phi list whenever a new ds_phi is created.
+drop trigger if exists insert_phi_list;
 
+delimiter &&
+CREATE TRIGGER insert_phi_list
+after insert on ds_phi
+for each row
+BEGIN
+DECLARE finished INTEGER DEFAULT 0; -- key to indicate the end of the cursor
+declare per_fee bigint;
+declare ma_phi varchar(10);
+declare idHK int;
+declare numMem int;
+declare pay int;
+declare cursor_nk cursor for -- cursor to iterate on the list of numbers of member on each family.
+	select so_ho_khau.ID, count(so_ho_khau.ID) 
+    from so_ho_khau left join nhan_khau 
+    on so_ho_khau.ID = nhan_khau.id_hk 
+    group by so_ho_khau.ID;
+
+DECLARE CONTINUE HANDLER FOR NOT FOUND  -- handler for not found
+SET finished = 1;
+
+set ma_phi = NEW.ma_phi; -- get ma_phi of newly inserted ds_phi
+set per_fee = NEW.tien_per_nk; -- get tien_per_nk of newly inserted ds_phi
+
+open cursor_nk;
+
+insert_phi : LOOP
+	fetch cursor_nk into idHK, numMem;
+    IF finished = 1 then
+		leave insert_phi;
+	end if;
+		set pay = numMem * per_fee;
+		insert into thu_phi(id_hk, ma_phi, fee_hk)
+        values (idHK, ma_phi, pay);
+END LOOP;
+
+close cursor_nk;
+
+END &&
+
+delimiter ;
+
+-- select so_ho_khau.ID, count(so_ho_khau.ID) from so_ho_khau left join nhan_khau on so_ho_khau.ID = nhan_khau.id_hk group by so_ho_khau.ID;
+-- select * from thu_phi;
+-- select * from ds_phi;
+
+insert into ds_phi(ma_phi, ten_phi, tien_per_nk, nguoi_tao, ngay_tao)
+values ('SH2023', 'Phí sinh hoạt định kì 2023', 500000, 'becacabe', curdate());
 
