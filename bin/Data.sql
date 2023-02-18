@@ -15,6 +15,7 @@ ID int(11) unique not null,
  admin_name varchar(100) not null
 );
 
+
 -- do du lieu cho bang users
 insert into users(id, username, pass, admin_name)
 values (1, "becacabe", "29123498", "Ngo Minh Tu"),
@@ -71,6 +72,7 @@ ID int(11) unique not null,
  create_date date not null,
  note varchar(100) default null -- == 'Quadoi' neu nguoi da qua doi
 );
+
 
 -- do du lieu cho bang nhan_khau
 
@@ -151,13 +153,15 @@ create table ds_phi(
 
 -- do du lieu cho bang ds_phi
 
+set @curdate = curdate();
+
 create table thu_phi(
 	ID int(11) primary key auto_increment,
 	id_hk int(11) not null, -- foreign key HoKhau('ID')
     ma_phi varchar(10) not null, -- foreign key ds_phi(ma_phi)
-    fee_hk bigint not null, -- = tien_per_nk * so NhanKhau
+    fee_hk int(11) not null, -- = tien_per_nk * so NhanKhau
     pay_state boolean default false, -- true cho da dong, false cho chua dong
-    pay_date date not null -- default curdate()
+    pay_date date default null
 );
 
 -- do du lieu cho bang thu_phi
@@ -298,14 +302,9 @@ alter table dong_gop
     
 -- >> tao cac procedure:
 
-create procedure summary_info_cs1() -- proc1
-begin
-
-end;
-
 create procedure add_cccd_nk() -- proc2
 begin
-
+	
 end;
 
 /* -- select nhan khau chua co can cuoc
@@ -318,7 +317,7 @@ where can_cuoc.id_nk is null;
 
 create procedure new_nk() -- proc3
 begin
-
+	
 end;
 
 create procedure new_hk() -- proc4
@@ -341,51 +340,182 @@ begin
 
 end;
 
-create procedure change_owner() -- proc8
+drop procedure if exists change_owner;
+
+delimiter $$
+
+create procedure change_owner(IN id_hk int, IN id_newCH int) -- proc8
+begin
+update nhan_khau
+set relation_owner = 'Nguoi than'
+where id_hk = id_hk;
+
+update nhan_khau
+set relation_owner = 'Chu ho'
+where id_hk = id_hk and ID = id_newCH;
+end $$
+
+delimiter ;
+
+-- select * from nhan_khau where id_hk in (select MIN(ID) from so_ho_khau);
+-- call change_owner(1,1);
+-- select * from nhan_khau where id_hk in (select MIN(ID) from so_ho_khau);
+
+drop procedure if exists add_tam_vang;
+
+delimiter $$
+
+create procedure add_tam_vang(IN id_nguoi_khai int(11), IN startDate date, IN endDate date,IN dest varchar(100), INOUT notification varchar(100)) -- proc9
+begin
+
+select count(ID) into @count1 from nhan_khau
+where ID = id_nguoi_khai and ID not in(select id_mat from khai_tu);
+
+select count(ID) into @count2 from tam_vang
+where id_nk = id_nguoi_khai and end_date > curdate();
+if @count1 = 0 then
+	set notification = 'ID nguoi khai da mat';
+elseif @count2 >= 1 then
+	set notification = 'Tam vang cua nguoi khai van con hieu luc';
+else
+	insert into tam_vang (id_nk, start_date, end_date, destination)
+    values (id_nguoi_khai, startDate, endDate, dest);
+    set notification = 'Tam vang da duoc them vao.';
+end if;
+end $$
+
+delimiter ;
+
+-- call add_tam_vang(15,str_to_date('2023 03 01', '%Y %m %d'), str_to_date('2023 03 11', '%Y %m %d'), 'so 8 ngho 2 Phuong Mai', @rtnVal);
+-- select @rtnVal;
+
+drop procedure if exists add_tam_tru;
+
+delimiter $$
+-- nhan thong tin tu form tam tru
+-- kiem tra xem lieu id nguoi khai co con song hay khong (chua duoc)
+-- kiem tra xem lieu id nguoi khai co tam tru trc hay khong (chua het tgian)
+create procedure add_tam_tru(IN id_nguoi_khai int(11),IN sdt int(11), IN startDate date, IN endDate date, IN note varchar(100), INOUT notification varchar(100)) -- proc10
+begin
+
+select count(ID) into @count1 from nhan_khau
+where ID = id_nguoi_khai and ID not in(select id_mat from khai_tu);
+
+select count(ID) into @count2 from tam_tru
+where id_nk = id_nguoi_khai and end_date > curdate();
+if @count1 = 0 then
+	set notification = 'ID nguoi khai da mat';
+elseif @count2 >= 1 then
+	set notification = 'Tam tru cua nguoi khai van con hieu luc';
+else
+	insert into tam_tru (id_nk, sdt, start_date, end_date, note)
+    values (id_nguoi_khai, sdt, startDate, endDate, note);
+    set notification = 'Tam tru da duoc them vao.';
+end if;
+end $$
+
+delimiter ;
+
+call add_tam_tru(11,900275,str_to_date('2023 03 01', '%Y %m %d'), str_to_date('2023 03 11', '%Y %m %d'), 'tham nha ong ba', @rtnVal);
+select @rtnVal;
+-- select count(ID) into @count1 from nhan_khau
+-- where ID = 11 and ID not in(select id_mat from khai_tu);
+-- select @count1;
+
+drop procedure if exists khai_bao_tu;
+
+delimiter $$ 
+-- nhan thong tin tu form bao tu
+-- check tinh hop le cua id nguoi khai va id nguoi mat
+-- tra ve notification string 'Tao khai tu thanh cong' hoac 'Id nhap vao khong hop le'
+create procedure khai_bao_tu(IN id_nguoi_mat int, IN id_nguoi_khai int, IN ngayMat date, IN lyDo varchar(100), OUT notification varchar(100)) -- proc11
+BEGIN
+declare checkID int; -- check the input IDs
+
+select count(ID)
+into checkID from nhan_khau 
+where ID in (id_nguoi_mat, id_nguoi_khai)
+and note is null ;
+if checkID = 2 then
+	insert into khai_tu(id_mat, id_khai, ngay_mat, ngay_khai, note)
+	values (id_nguoi_mat, id_nguoi_khai, ngayMat, curdate(), lydo);
+
+	update nhan_khau 
+	set note = 'Quadoi',
+    id_hk = null
+	where ID = id_nguoi_mat;
+	set notification = 'Tao khai tu thanh cong';
+else 
+	set notification = 'ID nhap vao khong hop le';
+end if;
+
+END $$
+
+delimiter ;
+
+-- call khai_bao_tu(11, 14, str_to_date('2012 03 01', '%Y %m %d'), 'Benh nang', @rtnVal);
+-- select @rtnVal;
+-- select count(ID) from nhan_khau where note is null;
+-- select * from nhan_khau;
+
+delimiter $$ -- need another delimiter for procedure
+
+CREATE PROCEDURE filter_TK (IN inputSex VARCHAR(10), -- proc12
+							IN startDate Date, IN endDate Date, IN tt_tv varchar(10))
+BEGIN
+declare todayDate Date;
+set todayDate = curdate();
+
+if tt_tv = 'tamtru' then 
+  create table filterTable
+  select nk.*
+  from nhan_khau as nk
+  left join tam_tru as tt on nk.ID = tt.id_nk
+  where tt.ID is not null 
+  and nk.sex = inputSex
+  and nk.dob> startDate and nk.dob < endDate
+  and tt.end_date > todayDate;
+else 
+  create table filterTable
+  select nk.*
+  from nhan_khau as nk
+  left join tam_vang as tv on nk.ID = tt.id_nk
+  where tv.ID is not null 
+  and nk.sex = inputSex
+  and nk.dob> startDate and nk.dob < endDate
+  and tv.end_date > todayDate;
+end if;
+  select * from filterTable;
+  drop table filterTable;
+END $$
+
+delimiter ;
+
+
+create procedure summary_info_cs2() -- proc13
 begin
 
 end;
 
-create procedure add_tam_vang() -- proc9
+create procedure new_ds_phi() -- proc14
 begin
 
 end;
 
-create procedure add_tam_tru() -- proc10
+create procedure add_pay_record() -- proc15
 begin
 
 end;
 
-create procedure khai_tu() -- proc11
+create procedure new_ds_donggop() -- proc16
 begin
 
 end;
 
-create procedure summary_info_cs2() -- proc12
+create procedure add_contribute_record() -- proc17
 begin
 
 end;
-
-create procedure new_ds_phi() -- proc13
-begin
-
-end;
-
-create procedure add_pay_record() -- proc14
-begin
-
-end;
-
-create procedure new_ds_donggop() -- proc15
-begin
-
-end;
-
-create procedure add_contribute_record() -- proc16
-begin
-
-end;
-
-
+-- need a trigger to create a new phi list whenever a new ds_phi is created.
 
 
