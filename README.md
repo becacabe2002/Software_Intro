@@ -5,27 +5,19 @@
 * [x] Insert data to tables
 * Create procedures: 
 	* Case Study 1: Quan ly nhan khau, ho khau 
-		- [ ] Proc1: Summary Information - *proc used to return summary information for UC1 TongQuat Pane*
-			+ **OUT**: total NK, total HK, TamTru, TamVang
-		- [ ] Proc2: Add CCCD to NK - *proc used to add a new cccd item for nhan_khau, whose id was passed through UC1 - form addCCCD*
-			+ **IN**: id_NK, so_cccd, ngay_cap, noi_cap
-		- [ ] Proc3: Add new NK - *proc used to add new nhan_khau, with passed information from UC1 - form add Nhan_khau*
-			+ **IN**: ho_ten, dob, nationality, sex, ethnic_group, religion (nullable), hoc_van (nullable), occupation (nullable), work_address (nullable), address (nullable), relation_owner (nullable), nguoi_tao
-		- [ ] Proc4: create new HK
-		- [ ] Proc5: add NK to HK - *proc used to add an exist nhan_khau into so_ho_khau by changing the id_hk field of that nhan_khau to be the same  with selected so_ho_khau(ID), and change its relation_owner to "Nguoi than". It may need to be called multiple times as user wants to add many people.*
-		- [ ] Proc6: create new HK from exist HK - *proc used to split exist hk to create a new HK with nhan_khau from the previous so_ho_khau. First, it creates new HK with passed information from UC1 - form tach HK. Them, it changes selected nhan_khau id_hk field to recently created HK (by call add NK to HK proc), with selected nhan_khau relation_owner to "Chu ho", and other to "Nguoi than"*
-		- [ ] Proc7: move HK to another place - *proc used to change dia_chi field of selected so_ho_khau*
-		- [ ] Proc8: change chu ho - *proc used to change relation_owner of nhan_khau inside selected so_ho_khau. Selected nhan_khau to become new chu ho changes its relation_owner -> "Chu ho", other relation_owner -> "Nguoi than"*
-		- [ ] Proc9: add new tam_vang
-		- [ ] Proc10: add new tam_tru
-		- [ ] Proc11: Khai tu
-		- [ ] Proc12: filter thongke - *proc used to return resultset based on passed information like: sex, time range, tam_tru or tam_vang from UC1 - Pane Thongke*
+		- [x] Proc1: add NK to HK - *proc used to add an exist nhan_khau into so_ho_khau by changing the id_hk field of that nhan_khau to be the same  with selected so_ho_khau(ID), and change its relation_owner to "Nguoi than". It may need to be called multiple times as user wants to add many people.*
+		- [x] Proc2: create HK - *proc used to create a new HK, add Owner nhan_khau to that HK*
+			+ Split HK = create HK(@param from old HK) + N * (add NK to HK) 
+				+ N is the number of member in that family
+		- [x] Proc3: move HK to another place - *proc used to change dia_chi field of selected so_ho_khau*
+		- [x] Proc4: change chu ho - *proc used to change relation_owner of nhan_khau inside selected so_ho_khau. Selected nhan_khau to become new chu ho changes its relation_owner -> "Chu ho", other relation_owner -> "Nguoi than"*
+		- [x] Proc5: add new tam_vang - *proc used to add new tam_vang for selected nhan_khau, after checking its validity*
+		- [x] Proc6: add new tam_tru - *proc used to add new tam_tru for selected nhan_khau, after checking its validity*
+		- [x] Proc7: Khai bao tu - *proc used to add new khai_tu after checking the validity of input information*
+		- [x] Proc8: filter thongke - *proc used to return resultset based on passed information like: sex, time range, tam_tru or tam_vang from UC1 - Pane Thongke*
+	
 	* Case Study 2: Quan ly thu phi, dong gop
-		- [ ] Proc13: Summary Information - *proc return summary information of UC2 - Thongke Pane*
-		- [ ] Proc14: create new DS thu phi - *proc used to create new item in ds_phi, and also create new item in thu_phi table, which show how many money does a HK need to pay.*
-		- [ ] Proc15: ghi nhan thu phi - *proc used to change thu_phi pay_state of selected ds_phi to true, with iput id_hk*
-		- [ ] Proc16: create new DS dong gop - *proc used to create new ds_donggop with passed information*
-		- [ ] Proc17: ghi nhan dong gop - "proc used to create new donggop record with ma_donggop from selected ds_donggop and input information from UC2 - form add new dong_gop "
+		- [x] Trigger1: insert_phi_list - *auto calculate the fee that each family have to pay for newly inserted ds_phi and add it to the thu_phi table*
 
 ## GUI
 
