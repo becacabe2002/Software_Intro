@@ -11,7 +11,7 @@ public class ds_phi {
 	private int ID;//primary key auto_increment,
 	private String ma_phi; //unique not null,
     private String ten_phi; //not null,
-    private float tien_per_nk; //not null, -- So tien can dong voi moi nhan khau
+    private int tien_per_nk; //not null, -- So tien can dong voi moi nhan khau
     private String nguoi_tao;//not null, -- foreign key toi users(username)
     private Date ngay_tao; //not null -- default curdate()
     
@@ -19,7 +19,7 @@ public class ds_phi {
     	
     }
     
-    public ds_phi(int ID, String ma_phi, String ten_phi, float tien_per_nk) {
+    public ds_phi(int ID, String ma_phi, String ten_phi, int tien_per_nk) {
     	this.ID = ID;
     	this.ma_phi = ma_phi;
     	this.ten_phi = ten_phi;
@@ -28,6 +28,15 @@ public class ds_phi {
     	
     	java.util.Date CurrDate = new java.util.Date();
 		 this.ngay_tao = new Date(CurrDate.getTime());
+		 
+    }
+    public ds_phi(int ID, String ma_phi, String ten_phi, int tien_per_nk, String creator, Date ngay_tao) {
+    	this.ID = ID;
+    	this.ma_phi = ma_phi;
+    	this.ten_phi = ten_phi;
+    	this.tien_per_nk = tien_per_nk;
+    	this.nguoi_tao = creator;
+		this.ngay_tao = ngay_tao;
 		 
     }
 
@@ -55,11 +64,11 @@ public class ds_phi {
 		this.ten_phi = ten_phi;
 	}
 
-	public float getTien_per_nk() {
+	public int getTien_per_nk() {
 		return tien_per_nk;
 	}
 
-	public void setTien_per_nk(float tien_per_nk) {
+	public void setTien_per_nk(int tien_per_nk) {
 		this.tien_per_nk = tien_per_nk;
 	}
 
@@ -79,5 +88,12 @@ public class ds_phi {
 		this.ngay_tao = ngay_tao;
 	}
     
-    
+    public String toString() {
+    	String returnStr;
+    	returnStr = "Danh sách thu phí " + this.ten_phi + " - " + this.ma_phi
+    				+ "\n Người tạo: " + this.nguoi_tao
+    				+ "\n Ngày tạo: " + this.ngay_tao.toString()
+    				+ "\n Phí từng nhân khẩu: " + this.tien_per_nk;
+    	return returnStr;
+    }
 }

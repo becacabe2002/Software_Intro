@@ -146,7 +146,7 @@ create table ds_phi(
 	ID int(11) primary key auto_increment,
 	ma_phi varchar(10) unique not null,
     ten_phi varchar(100) not null,
-    tien_per_nk bigint not null, -- So tien can dong voi moi nhan khau
+    tien_per_nk int(11) not null, -- So tien can dong voi moi nhan khau
     nguoi_tao varchar(20) not null, -- foreign key toi users(username)
     ngay_tao date not null -- default curdate()
 );
@@ -316,9 +316,6 @@ where can_cuoc.id_nk is null;
 
 -- ID int(11) , ma_phi varchar(10), ten_phi varchar(100), tien_per_nk bigint, nguoi_tao varchar(20), ngay_tao date 
 
-insert into ds_phi(ma_phi, ten_phi, tien_per_nk, nguoi_tao, ngay_tao)
-values ('VS2022', '');
-
 
 drop procedure if exists add_nk_hk ; 
 
@@ -423,32 +420,33 @@ delimiter $$
 -- chuyen relation_owner cua chu ho moi thanh 'Chu ho'
 -- ghi nhan thay doi trong tabel changes_history 
 
-create procedure change_owner(IN id_hk int, IN id_newCH int, IN username varchar(20)) -- proc8
+create procedure change_owner(IN id_selectHK int, IN id_newCH int, IN username varchar(20)) -- proc8
 begin
 declare prvOwner varchar(20);
 declare nwOwner varchar(20);
 
 select ho_ten into prvOwner from nhan_khau
-where id_hk = id_hk and relation_owner = 'Chu ho';
+where id_hk = id_selectHK and relation_owner = 'Chu ho';
 
 update nhan_khau
 set relation_owner = if(ID = id_newCH, 'Chu ho', 'Nguoi than')
-where id_hk = id_hk;
+where id_hk = id_selectHK;
 
 select ho_ten into nwOwner from nhan_khau
-where id_hk = id_hk and relation_owner = 'Chu ho';
+where id_hk = id_selectHK and relation_owner = 'Chu ho';
 
 insert into changes_history(username, id_hk, changed_info, old_info, new_info, change_date)
-values (username, id_hk, 'Thay doi chu ho', prvOwner, nwOwner, curdate());
+values (username, id_selectHK, 'Thay doi chu ho', prvOwner, nwOwner, curdate());
 end $$
 
 delimiter ;
 
+-- call change_owner(2, 5, 'admin');
+
 -- select * from nhan_khau where relation_owner = 'Nguoi than' id_hk in (select MIN(ID) from so_ho_khau);
--- call change_owner(2,6, 'admin');
 -- select * from nhan_khau where id_hk in (select MIN(ID) from so_ho_khau);
 -- select * from changes_history where id_hk = 2;
--- select * from nhan_khau where id_hk = 2;
+
 
 drop procedure if exists add_tam_vang;
 
@@ -600,6 +598,16 @@ delimiter ;
 
 call filter_TK(null, str_to_date('1900 01 01', '%Y %m %d'), str_to_date('2023 12 31', '%Y %m %d'), null);
 
+
+-- >>> UC2 Procedure
+drop procedure if exists summaryInfo_DG;
+
+delimiter &&
+
+create procedure summaryInfo_DG(IN ma_donggop varchar(20))
+
+delimiter ;
+
 -- need a trigger to create a new phi list whenever a new ds_phi is created.
 drop trigger if exists insert_phi_list;
 
@@ -650,3 +658,13 @@ delimiter ;
 
 insert into ds_phi(ma_phi, ten_phi, tien_per_nk, nguoi_tao, ngay_tao)
 values ('SH2023', 'Phí sinh hoạt định kì 2023', 500000, 'becacabe', curdate());
+
+insert into ds_donggop(ma_donggop, nguoi_tao, ten_ds_donggop, ngay_tao)
+values ('TT2022', 'admin', 'Ủng hộ Trung Thu 2022', curdate());
+
+insert into dong_gop(id_nk, ma_donggop, ngay_donggop, tien_donggop)
+values ('2', 'TT2022', curdate(), 20000),
+('3', 'TT2022', curdate(), 30000),
+('6', 'TT2022', curdate(), 50000);
+
+select sum(tien_donggop) from dong_gop where ma_donggop = 'TT2022';

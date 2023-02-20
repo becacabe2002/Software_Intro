@@ -132,7 +132,7 @@
                   </TableView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="PanePhi" prefHeight="590.0" prefWidth="1200.0" visible="false">
+            <AnchorPane fx:id="PanePhi" prefHeight="590.0" prefWidth="1200.0">
                <children>
                   <TableView fx:id="Phi_tableDS" layoutX="62.0" layoutY="74.0" prefHeight="387.0" prefWidth="491.0">
                      <columns>
@@ -154,12 +154,12 @@
                   </TableView>
                   <HBox layoutX="88.0" layoutY="494.0">
                      <children>
-                        <Button fx:id="Phi_addPhiBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Thêm Phí">
+                        <Button fx:id="Phi_addPhiBtn" mnemonicParsing="false" onAction="#pressAddDSPhiBtn" prefHeight="50.0" prefWidth="200.0" text="Thêm Phí">
                            <HBox.margin>
                               <Insets left="10.0" right="10.0" />
                            </HBox.margin>
                         </Button>
-                        <Button fx:id="Phi_addRecordBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Ghi nhận đóng phí">
+                        <Button fx:id="Phi_addRecordBtn" mnemonicParsing="false" onAction="#pressAddRecordPhiBtn" prefHeight="50.0" prefWidth="200.0" text="Ghi nhận đóng phí">
                            <HBox.margin>
                               <Insets left="10.0" right="10.0" />
                            </HBox.margin>
@@ -182,7 +182,7 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="PaneDongGop" prefHeight="590.0" prefWidth="1200.0">
+            <AnchorPane fx:id="PaneDongGop" prefHeight="590.0" prefWidth="1200.0" visible="false">
                <children>
                   <TableView fx:id="DongGop_tableDS" layoutX="68.0" layoutY="27.0" prefHeight="424.0" prefWidth="536.0">
                      <columns>
