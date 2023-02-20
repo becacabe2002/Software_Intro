@@ -1,6 +1,14 @@
 package application.model;
 
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import application.database.ConnectDatabase;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class so_ho_khau {
 	private int ID; // not null
@@ -76,6 +84,57 @@ public class so_ho_khau {
 
 	public void setLydo_chuyen(String lydo_chuyen) {
 		this.lydo_chuyen = lydo_chuyen;
+	}
+	
+	public String toString() {
+		String returnStr;
+		Connection con =  ConnectDatabase.getConnection();
+		ObservableList<nhan_khau> tempObListNK = FXCollections.observableArrayList();
+    	String sql = "select * from nhan_khau where id_hk = ?;";
+    	try {
+	    	PreparedStatement ppStm = con.prepareStatement(sql);
+	    	ppStm.setInt(1, this.ID);
+	    	ResultSet res = ppStm.executeQuery();
+	    	
+	    	while(res.next()) {
+				String name = res.getString("ho_ten");
+				String creator = res.getString("nguoi_tao");
+				Date dob = res.getDate("dob");
+				int id = res.getInt("ID");
+				int maHK = res.getInt("id_hk");
+				String nation = res.getString("id_hk");
+				String relation = res.getString("relation_owner");
+				String sex = res.getString("sex");
+				Date createDate = res.getDate("create_date");
+				
+				nhan_khau tempNK = new nhan_khau(id,maHK,name, dob, nation,sex,relation,creator,createDate);
+				tempObListNK.add(tempNK);
+	    	}
+    	} catch (SQLException e) {
+    		e.printStackTrace();
+    	}
+    	
+    	StringBuffer bufferMem = new StringBuffer();
+    	for(int i = 0; i < tempObListNK.size(); i++) {
+    		nhan_khau nk = tempObListNK.get(i);
+    		bufferMem.append("\n- " + nk.getHo_ten() + " (" + nk.getRelation_owner() + ")");
+    		if (nk.getNote() != null) {
+    			bufferMem.append("\n    +" + nk.getNote().toUpperCase());
+    		}
+    	}
+    	
+    	returnStr = "* Sổ hộ khẩu: " + this.ma_shk
+    				+ "\n* Mã khu vực: " + this.ma_kv
+    				+ "\n* Địa chỉ hiện tại: " + this.dia_chi
+    				+ "\n* Ngày lập: " + this.ngay_lap.toString()
+    				+ "\n* Người tạo: " + this.nguoi_tao
+    				+ "\n* Các thành viên trong gia đình:" + bufferMem.toString();
+    	
+    	if (this.ngay_chuyen != null && this.lydo_chuyen != null) {
+    		returnStr = returnStr + "\n* Ngày chuyển đi gần nhất: " + this.ngay_chuyen.toString()
+						+ "\n* Lý do chuyển:" + this.lydo_chuyen;
+    	}
+    	return returnStr;
 	}
 	
 }

@@ -148,5 +148,23 @@ public class nhan_khau {
 		this.note = note;
 	}
 	
-	
+	public String toString() {
+		String temp = this.ho_ten.toUpperCase() 
+				+ "\n- ID: " + this.ID 
+				+ "\n- ID Hộ Khẩu: "+ this.id_hk
+				+ "\n- Giới tính: " + sex
+				+ "\n- Ngày sinh: " + this.dob
+				+ "\n- Quốc tịch: " + this.nationality 
+				+ "\n- Dân tộc: "+ this.ethnic_group
+				+ "\n- Tôn giáo: "+ this.religion
+				+ "\n- Tôn giáo: "+ this.hoc_van
+				+ "\n- Nghề nghiệp: " + occupation
+				+ "\n- Nơi làm việc: " + this.work_address
+				+ "\n- Địa chỉ hiện tại: "+ this.address
+				+ "\n- Mối quan hệ với chủ hộ: "+ this.relation_owner
+				+ "\n- Người tạo: " + this.nguoi_tao
+				+ "\n- Ngày tạo: " + this.create_date.toString()
+				+ "\n- Ghi chú: "+ note;
+		return temp;
+	}
 }

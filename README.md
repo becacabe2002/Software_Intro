@@ -26,18 +26,19 @@
 * StackPane for UC1: sidebar{Trang chu btn, Nhan Khau btn, Ho Khau btn} 
 	- [x] Trang chu: tong so nhan khau, tong so ho khau, nhan khau tam tru, nhan khau tam vang
 	- [x] AnchorPane Nhan khau:search bar, TableView Nhan Khau, them moi btn, DK tam vang btn, DK tam tru btn, Khai tu btn, add CCCD btn
-		+ [ ] Form them moi nhan khau (Popup scene in Stage FormStage_UC1)
-		+ [ ] Form dk tam vang (Popup scene in Stage FormStage_UC1)
-		+ [ ] Form dk tam tru (Popup scene in Stage FormStage_UC1)
-		+ [ ] Form khai tu (Popup scene in Stage FormStage_UC1)
-		+ [ ] Form add CCCD: tableview nhan_khau haven't had cccd to select (Popup scene in Stage FormStage_UC1)
+		+ [x] Form them moi nhan khau (Popup scene in Stage FormStage_UC1)
+		+ [x] Form dk tam vang (Popup scene in Stage FormStage_UC1)
+		+ [x] Form dk tam tru (Popup scene in Stage FormStage_UC1)
+		+ [x] Form khai tu (Popup scene in Stage FormStage_UC1)
 	- [x] AnchorPane Ho Khau: search bar, TableView Ho Khau, them moi btn, tach HK btn, chuyen di btn, doi chu ho btn. 
-		+ [ ] Form them moi ho khau: Table view Nhan Khau chua o trong Ho Khau (Popup scene in Stage FormStage_UC1)
+		+ [x] Form them moi ho khau: Table view Nhan Khau chua o trong Ho Khau (Popup scene in Stage FormStage_UC1)
+		+ [x] Form them NK vao HK
 		+ [ ] Form tach HK : table view Ho Khau, Ma Ho Khau moi, chu ho moi (Popup scene in Stage FormStage_UC1)
 		+ [ ] Form chuyen Ho Khau di (Popup scene in Stage FormStage_UC1)
-
+		+ [ ] Form doi chu ho
+		+ [x] Form Xem lich su thay doi
 	- [x] AnchorPane Thong ke: table view, search do tuoi, search gioi tich, search tam tru, tam vang
-
+		* _**Still have error when not type in nam sinh nam mat**_
 * StackPane for UC2: sidebar{Thu phi, Dong gop, Thong ke}
 	- [x] AnchorPane Thong Ke: 2 Sections:
 		+ [x] Sec 1 - Thu Phi: table view ds_phi, pane for pay percentage, pane for tong so tien thu cua selected phi.

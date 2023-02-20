@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" style="-fx-background-color: #acedff; -fx-background-radius: 20;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.form.UC1.HK_changesHistoryController">
+   <children>
+      <TableView fx:id="ChangesHisTable" layoutX="14.0" layoutY="78.0" prefHeight="388.0" prefWidth="612.0">
+        <columns>
+          <TableColumn fx:id="ChangesHisTable_ID" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="ChangesHisTable_kind" prefWidth="130.39996337890625" text="Thay đổi" />
+            <TableColumn fx:id="ChangesHisTable_oldInfo" prefWidth="156.0" text="Thông tin cũ" />
+            <TableColumn fx:id="ChangesHisTable_newInfo" prefWidth="160.0" text="Thông tin mới" />
+            <TableColumn fx:id="ChangesHisTable_date" prefWidth="116.7999267578125" text="Ngày" />
+            <TableColumn fx:id="ChangesHisTable_creator" prefWidth="50.0" text="Người thay đổi" />
+        </columns>
+      </TableView>
+      <Label layoutX="43.0" layoutY="40.0" text="Mã số hộ khẩu: " textFill="#324784">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="selected_HK" layoutX="162.0" layoutY="42.0" prefHeight="22.0" prefWidth="222.0" text=" ">
+         <font>
+            <Font name="System Bold Italic" size="15.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

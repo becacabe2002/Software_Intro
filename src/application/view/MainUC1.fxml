@@ -142,10 +142,10 @@
                   <TextField fx:id="NhanKhau_searchField" layoutX="32.0" layoutY="35.0" prefHeight="25.0" prefWidth="440.0" />
                   <VBox layoutX="1077.0" layoutY="78.0" spacing="40.0">
                      <children>
-                        <Button fx:id="NhanKhau_addBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #77C3EC;" text="Thêm mới" />
-                        <Button fx:id="NhanKhau_addTamTruBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="ĐK tạm trú" />
-                        <Button fx:id="NhanKhau_addTamVangBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="ĐK tạm vắng" />
-                        <Button fx:id="NhanKhau_addKhaiTuBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Khai tử" />
+                        <Button fx:id="NhanKhau_addBtn" mnemonicParsing="false" onAction="#pressBtn_newNK" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #77C3EC;" text="Thêm mới" />
+                        <Button fx:id="NhanKhau_addTamTruBtn" mnemonicParsing="false" onAction="#pressBtn_addTT" prefHeight="40.0" prefWidth="100.0" text="ĐK tạm trú" />
+                        <Button fx:id="NhanKhau_addTamVangBtn" mnemonicParsing="false" onAction="#pressBtn_addTV" prefHeight="40.0" prefWidth="100.0" text="ĐK tạm vắng" />
+                        <Button fx:id="NhanKhau_addKhaiTuBtn" mnemonicParsing="false" onAction="#pressBtn_addKT" prefHeight="40.0" prefWidth="100.0" text="Khai tử" />
                      </children>
                   </VBox>
                </children>
@@ -164,12 +164,14 @@
                      </columns>
                   </TableView>
                   <TextField fx:id="HoKhau_searchField" layoutX="32.0" layoutY="35.0" prefHeight="25.0" prefWidth="440.0" />
-                  <VBox layoutX="1077.0" layoutY="78.0" spacing="40.0">
+                  <VBox layoutX="1077.0" layoutY="78.0" prefHeight="483.0" prefWidth="100.0" spacing="40.0">
                      <children>
-                        <Button fx:id="HoKhau_addBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #77C3EC;" text="Thêm mới" />
-                        <Button fx:id="HoKhau_splitBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Tách HK" />
-                        <Button fx:id="HoKhau_moveBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Chuyển đi" />
-                        <Button fx:id="HoKhau_changeOwnerBtn" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Đổi chủ hộ" />
+                        <Button fx:id="HoKhau_addBtn" mnemonicParsing="false" onAction="#pressBtn_addHK" prefHeight="40.0" prefWidth="100.0" style="-fx-background-color: #77C3EC;" text="Thêm mới" />
+                        <Button fx:id="HoKhau_addNKHKBtn" layoutX="10.0" layoutY="90.0" mnemonicParsing="false" onAction="#pressBtn_addNKHK" prefHeight="40.0" prefWidth="100.0" text="Thêm NK HK" />
+                        <Button fx:id="HoKhau_splitBtn" mnemonicParsing="false" onAction="#pressBtn_splitHK" prefHeight="40.0" prefWidth="100.0" text="Tách HK" />
+                        <Button fx:id="HoKhau_moveBtn" mnemonicParsing="false" onAction="#pressBtn_moveHK" prefHeight="40.0" prefWidth="100.0" text="Chuyển đi" />
+                        <Button fx:id="HoKhau_changeOwnerBtn" mnemonicParsing="false" onAction="#pressBtn_changeOwner" prefHeight="40.0" prefWidth="100.0" text="Đổi chủ hộ" />
+                        <Button fx:id="HoKhau_changeHistory" layoutX="10.0" layoutY="250.0" mnemonicParsing="false" onAction="#pressBtn_changesHis" prefHeight="40.0" prefWidth="100.0" text="Lịch sử thay đổi" />
                      </children>
                   </VBox>
                </children>
@@ -229,7 +231,7 @@
                   </AnchorPane>
                   <AnchorPane layoutX="33.0" layoutY="323.0" prefHeight="104.0" prefWidth="225.0" style="-fx-background-color: #D3D3D3; -fx-background-radius: 20;">
                      <children>
-                        <Label layoutX="84.0" layoutY="14.0" text="Độ tuổi">
+                        <Label layoutX="84.0" layoutY="14.0" text="Năm sinh">
                            <font>
                               <Font name="System Bold" size="16.0" />
                            </font>
@@ -238,7 +240,7 @@
                         <TextField fx:id="ThongKe_MaxAgeFilter" layoutX="121.0" layoutY="66.0" prefHeight="25.0" prefWidth="80.0" />
                      </children>
                   </AnchorPane>
-                  <Button fx:id="ThongKe_FilterBtn" layoutX="115.0" layoutY="480.0" mnemonicParsing="false" style="-fx-background-color: #8C92AC;" text="Filter">
+                  <Button fx:id="ThongKe_FilterBtn" layoutX="115.0" layoutY="480.0" mnemonicParsing="false" onAction="#pressFilterBtn" style="-fx-background-color: #8C92AC;" text="Filter">
                      <font>
                         <Font name="System Bold Italic" size="16.0" />
                      </font>

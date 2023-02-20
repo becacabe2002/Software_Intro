@@ -314,6 +314,12 @@ where can_cuoc.id_nk is null;
 -- you type in id_hk and select nhan_khaus that you prefer to add in. 
 -- this procedure gone be called many time.
 
+-- ID int(11) , ma_phi varchar(10), ten_phi varchar(100), tien_per_nk bigint, nguoi_tao varchar(20), ngay_tao date 
+
+insert into ds_phi(ma_phi, ten_phi, tien_per_nk, nguoi_tao, ngay_tao)
+values ('VS2022', '');
+
+
 drop procedure if exists add_nk_hk ; 
 
 delimiter $$
@@ -403,7 +409,7 @@ end $$
 
 delimiter ;
 
--- call move_hk(1, 'so 8 ngho 5 Khuong Trung Ha Noi', 'thich thi chuyen thoi', 'admin');
+call move_hk(1, 'so 8 ngho 5 Khuong Trung Ha Noi', 'thich thi chuyen thoi', 'admin');
 -- select * from nhan_khau where id_hk = 1;
 -- select so_ho_khau.*, changes_history.changed_info, changes_history.old_info,changes_history.new_info, changes_history.change_date 
 -- from so_ho_khau left join changes_history on so_ho_khau.id = changes_history.id_hk;
@@ -426,12 +432,8 @@ select ho_ten into prvOwner from nhan_khau
 where id_hk = id_hk and relation_owner = 'Chu ho';
 
 update nhan_khau
-set relation_owner = 'Nguoi than'
+set relation_owner = if(ID = id_newCH, 'Chu ho', 'Nguoi than')
 where id_hk = id_hk;
-
-update nhan_khau
-set relation_owner = 'Chu ho'
-where id_hk = id_hk and ID = id_newCH;
 
 select ho_ten into nwOwner from nhan_khau
 where id_hk = id_hk and relation_owner = 'Chu ho';
@@ -443,9 +445,10 @@ end $$
 delimiter ;
 
 -- select * from nhan_khau where relation_owner = 'Nguoi than' id_hk in (select MIN(ID) from so_ho_khau);
--- call change_owner(2,5, 'admin');
+-- call change_owner(2,6, 'admin');
 -- select * from nhan_khau where id_hk in (select MIN(ID) from so_ho_khau);
--- select * from changes_history;
+-- select * from changes_history where id_hk = 2;
+-- select * from nhan_khau where id_hk = 2;
 
 drop procedure if exists add_tam_vang;
 

@@ -26,6 +26,16 @@ public class changes_history {
 		this.change_date = new Date(CurDate.getTime());
 	}
 	
+	public changes_history(int ID,String username,int id_hk, String changed_info, String old_info, String new_info, Date change_date) {
+		this.ID = ID;
+		this.username = username;
+		this.id_hk = id_hk;
+		this.changed_info = changed_info;
+		this.old_info = old_info;
+		this.new_info = new_info;
+		this.change_date = change_date;
+	}
+	
 	public int getID() {
 		return ID;
 	}

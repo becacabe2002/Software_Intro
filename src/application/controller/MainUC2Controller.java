@@ -11,6 +11,10 @@ import javafx.scene.layout.StackPane;
 
 public class MainUC2Controller {
 
+// --> DongGop Pane
+    @FXML
+    private AnchorPane PaneDongGop;
+	
     @FXML
     private Button DongGop_addDSBtn;
 
@@ -59,14 +63,10 @@ public class MainUC2Controller {
     @FXML
     private Button DonggopBtn;
 
-    @FXML
-    private AnchorPane PaneDongGop;
-
+// --> Phi Pane
+    
     @FXML
     private AnchorPane PanePhi;
-
-    @FXML
-    private AnchorPane PaneThongKe;
 
     @FXML
     private Button PhiBtn;
@@ -115,6 +115,10 @@ public class MainUC2Controller {
 
     @FXML
     private Label Phi_total_label;
+
+//--> Thong Ke Pane
+    @FXML
+    private AnchorPane PaneThongKe;
 
     @FXML
     private Button ThongKeBtn;
