@@ -375,6 +375,7 @@ drop procedure if exists move_hk;
 
 delimiter $$
 
+
 create procedure move_hk(IN id_hk int, IN newDest varchar(100),IN lydo varchar(100), IN username varchar(100)) -- proc7
 begin
 declare prvDest varchar(100);
@@ -450,7 +451,7 @@ drop procedure if exists add_tam_vang;
 
 delimiter $$
 
-create procedure add_tam_vang(IN id_nguoi_khai int(11), IN startDate date, IN endDate date,IN dest varchar(100), INOUT notification varchar(100)) -- proc9
+create procedure add_tam_vang(IN id_nguoi_khai int(11), IN startDate date, IN endDate date,IN dest varchar(100), IN note varchar(100), INOUT notification varchar(100)) -- proc9
 begin
 
 select count(ID) into @count1 from nhan_khau
@@ -463,8 +464,8 @@ if @count1 = 0 then
 elseif @count2 >= 1 then
 	set notification = 'Tam vang cua nguoi khai van con hieu luc';
 else
-	insert into tam_vang (id_nk, start_date, end_date, destination)
-    values (id_nguoi_khai, startDate, endDate, dest);
+	insert into tam_vang (id_nk, start_date, end_date, destination, note)
+    values (id_nguoi_khai, startDate, endDate, dest, note);
     set notification = 'Tam vang da duoc them vao.';
     
     update nhan_khau 
@@ -475,7 +476,7 @@ end $$
 
 delimiter ;
 
-call add_tam_vang(16,str_to_date('2023 04 01', '%Y %m %d'), str_to_date('2023 04 20', '%Y %m %d'), 'so 8 ngho 2 Phuong Mai', @rtnVal);
+call add_tam_vang(16,str_to_date('2023 04 01', '%Y %m %d'), str_to_date('2023 04 20', '%Y %m %d'), 'so 8 ngho 2 Phuong Mai', 'Cong tac', @rtnVal);
 select @rtnVal;
 select * from nhan_khau;
 
@@ -548,7 +549,9 @@ delimiter ;
 -- select count(ID) from nhan_khau where note is null;
 -- select * from nhan_khau;
 
-delimiter $$ -- need another delimiter for procedure
+drop procedure if exists filter_TK;
+
+delimiter $$
 
 CREATE PROCEDURE filter_TK (IN inputSex VARCHAR(10), -- proc12
 							IN startDate Date, IN endDate Date, IN tt_tv varchar(10))
@@ -556,7 +559,7 @@ BEGIN
 declare todayDate Date;
 set todayDate = curdate();
 
-if tt_tv = 'tamtru' then 
+if tt_tv = 'tamtru' and inputSex is not null then 
   create table filterTable
   select nk.*
   from nhan_khau as nk
@@ -565,21 +568,34 @@ if tt_tv = 'tamtru' then
   and nk.sex = inputSex
   and nk.dob> startDate and nk.dob < endDate
   and tt.end_date > todayDate;
-else 
+elseif tt_tv = 'tamvang' and inputSex is not null then
   create table filterTable
   select nk.*
   from nhan_khau as nk
-  left join tam_vang as tv on nk.ID = tt.id_nk
+  left join tam_vang as tv on nk.ID = tv.id_nk
   where tv.ID is not null 
   and nk.sex = inputSex
   and nk.dob> startDate and nk.dob < endDate
   and tv.end_date > todayDate;
+elseif tt_tv is null and inputSex is not null then
+  create table filterTable
+  select *
+  from nhan_khau
+  where sex = inputSex
+  and dob> startDate and dob < endDate;
+else
+  create table filterTable
+  select *
+  from nhan_khau
+  where dob> startDate and dob < endDate;
 end if;
   select * from filterTable;
   drop table filterTable;
 END $$
 
 delimiter ;
+
+call filter_TK(null, str_to_date('1900 01 01', '%Y %m %d'), str_to_date('2023 12 31', '%Y %m %d'), null);
 
 -- need a trigger to create a new phi list whenever a new ds_phi is created.
 drop trigger if exists insert_phi_list;
@@ -631,4 +647,3 @@ delimiter ;
 
 insert into ds_phi(ma_phi, ten_phi, tien_per_nk, nguoi_tao, ngay_tao)
 values ('SH2023', 'Phí sinh hoạt định kì 2023', 500000, 'becacabe', curdate());
-
