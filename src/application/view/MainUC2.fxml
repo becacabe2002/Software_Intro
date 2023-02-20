@@ -132,7 +132,7 @@
                   </TableView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="PanePhi" prefHeight="590.0" prefWidth="1200.0">
+            <AnchorPane fx:id="PanePhi" prefHeight="590.0" prefWidth="1200.0" visible="false">
                <children>
                   <TableView fx:id="Phi_tableDS" layoutX="62.0" layoutY="74.0" prefHeight="387.0" prefWidth="491.0">
                      <columns>
@@ -182,7 +182,7 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="PaneDongGop" prefHeight="590.0" prefWidth="1200.0" visible="false">
+            <AnchorPane fx:id="PaneDongGop" prefHeight="590.0" prefWidth="1200.0">
                <children>
                   <TableView fx:id="DongGop_tableDS" layoutX="68.0" layoutY="27.0" prefHeight="424.0" prefWidth="536.0">
                      <columns>
@@ -197,19 +197,19 @@
                      <columns>
                         <TableColumn fx:id="DongGop_tableRecord_ID" prefWidth="46.0" text="ID" />
                         <TableColumn fx:id="DongGop_tableRecord_idNK" prefWidth="74.0" text="ID NK" />
-                        <TableColumn fx:id="DongGop_tableRecord_nameNK" prefWidth="180.0" text="Tên" />
+                        <TableColumn fx:id="DongGop_tableRecord_maDonggop" prefWidth="180.0" text="Mã Đóng góp" />
                         <TableColumn fx:id="DongGop_tableRecord_Sotien" prefWidth="96.0" text="Số tiền" />
                         <TableColumn fx:id="DongGop_tableRecord_ngayDong" prefWidth="97.0" text="Ngày đónggóp" />
                      </columns>
                   </TableView>
                   <HBox layoutX="116.0" layoutY="485.0">
                      <children>
-                        <Button fx:id="DongGop_addDSBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Thêm DS đóng góp">
+                        <Button fx:id="DongGop_addDSBtn" mnemonicParsing="false" onAction="#pressAddDSDonggopBtn" prefHeight="50.0" prefWidth="200.0" text="Thêm DS đóng góp">
                            <HBox.margin>
                               <Insets left="10.0" right="10.0" />
                            </HBox.margin>
                         </Button>
-                        <Button fx:id="DongGop_addRecordBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="200.0" text="Ghi nhận đóng góp">
+                        <Button fx:id="DongGop_addRecordBtn" mnemonicParsing="false" onAction="#pressAddRecordDonggopBtn" prefHeight="50.0" prefWidth="200.0" text="Ghi nhận đóng góp">
                            <HBox.margin>
                               <Insets left="10.0" right="10.0" />
                            </HBox.margin>

@@ -87,7 +87,7 @@ public class MainUC2Controller implements Initializable{
     private TableColumn<dong_gop, Integer> DongGop_tableRecord_idNK;
 
     @FXML
-    private TableColumn<dong_gop, String> DongGop_tableRecord_nameNK;
+    private TableColumn<dong_gop, String> DongGop_tableRecord_maDonggop;
 
     @FXML
     private TableColumn<dong_gop, Date> DongGop_tableRecord_ngayDong;
@@ -453,12 +453,202 @@ public class MainUC2Controller implements Initializable{
     	}
     }
     
-// Pane Dong gop
-    public ObservableList<dong_gop> loadSelecteDonggop(ds_donggop inputDs){
+    public String getDisplayPaidRatio(String ma_phi) {
+    	int paid = 0;
+    	String sql1 = "select count(ID) from thu_phi where ma_phi = ? and pay_state = true;";
+    	try {
+    		PreparedStatement ppStm = con.prepareStatement(sql1);
+    		
+    		ppStm.setString(1, ma_phi);
+    		
+    		ResultSet RSSet = ppStm.executeQuery();
+    		while(RSSet.next()) {
+    			paid = RSSet.getInt("count(ID)");	
+    		}
+    	} catch(SQLException e) {
+    		e.printStackTrace();
+    	}
+    	int total = 0;
+    	String sql2 = "select count(ID) from thu_phi where ma_phi = ?;";
+    	try {
+    		PreparedStatement ppStm = con.prepareStatement(sql2);
+    		
+    		ppStm.setString(1, ma_phi);
+    		
+    		ResultSet RSSet = ppStm.executeQuery();
+    		while(RSSet.next()) {
+    			total = RSSet.getInt("count(ID)");	
+    		}
+    	} catch(SQLException e) {
+    		e.printStackTrace();
+    	}
     	
-    	return null;
+    	return paid + "/" + total;
     }
     
+// Pane Dong gop
+    public ObservableList<dong_gop> loadSelecteDonggop(ds_donggop inputDs){
+    	ObservableList<dong_gop> temp = FXCollections.observableArrayList();
+    	String input_maDonggop = inputDs.getMa_donggop();
+    	String sql = "select * from dong_gop where ma_donggop = ?;";
+    	try {
+    		PreparedStatement ppStm = con.prepareStatement(sql);
+    		ppStm.setString(1, input_maDonggop);
+    		
+    		ResultSet res = ppStm.executeQuery();
+// dong_gop(int inputID, int inputID_nk, String inputMa, Date inputNgay, int inputTien)
+    		while(res.next()) {
+    			dong_gop tempRecord = new dong_gop(res.getInt("ID"), 
+    											res.getInt("id_nk"), 
+    											res.getString("ma_donggop"),
+    											res.getDate("ngay_donggop"),
+    											res.getInt("tien_donggop"));
+    											
+    			temp.add(tempRecord);
+    		}
+    	} catch (SQLException e) {
+    		e.printStackTrace();
+    	}
+    	
+    	return temp;
+    }
+    
+    public void displayselectDonggop(ds_donggop inputDS) {
+    	ObListDongGop = loadSelecteDonggop(inputDS);
+        DongGop_tableRecord_ID.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        DongGop_tableRecord_Sotien.setCellValueFactory(new PropertyValueFactory<>("tien_donggop"));
+        DongGop_tableRecord_idNK.setCellValueFactory(new PropertyValueFactory<>("id_nk"));
+        DongGop_tableRecord_maDonggop.setCellValueFactory(new PropertyValueFactory<>("ma_donggop"));
+        DongGop_tableRecord_ngayDong.setCellValueFactory(new PropertyValueFactory<>("ngay_donggop"));
+
+        DongGop_tableRecord.setItems(ObListDongGop);
+    }
+    
+    public int getTotalDonggop(String ma_donggop) {
+    	int res = 0;
+    	String sql = "select sum(tien_donggop) from dong_gop where ma_donggop = ?";
+    	try {
+    		PreparedStatement ppStm = con.prepareStatement(sql);
+    		
+    		ppStm.setString(1, ma_donggop);
+    		
+    		ResultSet RSSet = ppStm.executeQuery();
+    		while(RSSet.next()) {
+    			res = RSSet.getInt("sum(tien_donggop)");	
+    		}
+    	} catch(SQLException e) {
+    		e.printStackTrace();
+    	}
+    	return res;
+    }
+    
+    @FXML
+    public void pressAddDSDonggopBtn(ActionEvent e) {
+    	TextInputDialog dialog = new TextInputDialog();
+    	dialog.setTitle("Thêm DS ghi nhận đóng góp");
+    	dialog.setHeaderText("Tạo DS ghi nhận");
+    	GridPane grid = new GridPane();
+    	grid.setHgap(10);
+    	grid.setVgap(10);
+    	
+    	TextField newMaDongGop = new TextField();
+    	TextField newTenDongGop = new TextField();
+    	
+    	grid.add(new Label("Mã Đóng góp mới: "), 0, 0);
+    	grid.add(newMaDongGop, 1, 0);
+    	grid.add(new Label("Tên danh sách mới: "), 0, 1);
+    	grid.add(newTenDongGop, 1, 1);
+    	
+    	dialog.getDialogPane().setContent(grid);
+    	Optional<String> result = dialog.showAndWait();
+    	if(result.isPresent()) {
+    		String StrMaDonggop = newMaDongGop.getText();
+    		String StrTenDonggop = newTenDongGop.getText();
+    		
+    		java.util.Date CurrDate = new java.util.Date();
+   		 	Date tempDate = new Date(CurrDate.getTime());
+    		
+    		String sql = "insert into ds_donggop(ma_donggop, nguoi_tao, ten_ds_donggop, ngay_tao)"
+    				+ "values (?,?,?,?)";
+    		try {
+    			PreparedStatement ppStm = con.prepareStatement(sql);
+    			ppStm.setString(1, StrMaDonggop);
+    			ppStm.setString(2, currentUser);
+    			ppStm.setString(3, StrTenDonggop);
+    			ppStm.setDate(4, tempDate);
+    			
+    			ppStm.execute();
+    			
+    		} catch(SQLException exc) {
+    			exc.printStackTrace();
+    		}
+    		
+    	}
+    }
+    
+    @FXML
+    public void pressAddRecordDonggopBtn(ActionEvent e) {
+    	TextInputDialog dialog = new TextInputDialog();
+    	dialog.setTitle("Ghi nhận đóng góp cá nhân");
+    	dialog.setHeaderText("Ghi nhận đóng góp:");
+    	GridPane grid = new GridPane();
+    	grid.setHgap(10);
+    	grid.setVgap(10);
+    	
+    	TextField inputID_nk = new TextField();
+    	TextField inputSoTien = new TextField();
+    	
+    	grid.add(new Label("Mã nhân khẩu đóng góp: "), 0, 0);
+    	grid.add(inputID_nk, 1, 0);
+    	grid.add(new Label("Số tiền đóng góp: "), 0, 1);
+    	grid.add(inputSoTien, 1, 1);
+    	
+    	dialog.getDialogPane().setContent(grid);
+    	Optional<String> result = dialog.showAndWait();
+    	if(result.isPresent()) {
+    		int IDNhanKhau = Integer.parseInt(inputID_nk.getText());
+    		int SoTien = Integer.parseInt(inputSoTien.getText());
+    		
+    		java.util.Date CurrDate = new java.util.Date();
+   		 	Date tempDate = new Date(CurrDate.getTime());
+    		
+   		 	String StrSelectDS = DongGop_tableDS.getSelectionModel().getSelectedItem().getMa_donggop();
+   		 	
+    		String sql = "insert into dong_gop(id_nk, ma_donggop, ngay_donggop, tien_donggop)"
+    				+ "values (?,?,?,?)";
+    		try {
+    			PreparedStatement ppStm = con.prepareStatement(sql);
+    			ppStm.setInt(1, IDNhanKhau);
+    			ppStm.setString(2, StrSelectDS);
+    			ppStm.setDate(3, tempDate);
+    			ppStm.setInt(4, SoTien);
+    			
+    			ppStm.execute();
+    			
+    		} catch(SQLException exc) {
+    			exc.printStackTrace();
+    		}
+    		
+    	}
+    }
+    
+    public int getNumberDonggop(String ma_donggop) {
+    	int res = 0;
+    	String sql = "select count(ID) from dong_gop where ma_donggop = ?";
+    	try {
+    		PreparedStatement ppStm = con.prepareStatement(sql);
+    		
+    		ppStm.setString(1, ma_donggop);
+    		
+    		ResultSet RSSet = ppStm.executeQuery();
+    		while(RSSet.next()) {
+    			res = RSSet.getInt("count(ID)");	
+    		}
+    	} catch(SQLException e) {
+    		e.printStackTrace();
+    	}
+    	return res;
+    }
     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -474,6 +664,11 @@ public class MainUC2Controller implements Initializable{
 				dialog.setTitle("Thông tin danh sách phí");
 				dialog.setContentText(Thongke_tablePhi.getSelectionModel().getSelectedItem().toString());
 				dialog.showAndWait();
+			}else if(event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 1) {
+				ds_phi temp = Thongke_tablePhi.getSelectionModel().getSelectedItem();
+				int total = getTotalPaidPhi(temp.getMa_phi());
+				totalPhi.setText(total + ".$");
+				percentageNumberPhi.setText(getDisplayPaidRatio(temp.getMa_phi()));
 			}
 		});
 		Thongke_tableDongGop.setOnMouseClicked(event->{
@@ -482,6 +677,13 @@ public class MainUC2Controller implements Initializable{
 				dialog.setTitle("Thông tin danh sách đóng góp");
 				dialog.setContentText(Thongke_tableDongGop.getSelectionModel().getSelectedItem().toString());
 				dialog.showAndWait();
+			} else if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 1){
+				ds_donggop temp = Thongke_tableDongGop.getSelectionModel().getSelectedItem();
+				int total = getTotalDonggop(temp.getMa_donggop());
+				totalDongGop.setText(total + ".$");
+				int number = getNumberDonggop(temp.getMa_donggop());
+				totalNumberDG.setText(Integer.toString(number));
+				
 			}
 		});
 		
@@ -506,6 +708,11 @@ public class MainUC2Controller implements Initializable{
 				dialog.setTitle("Thông tin danh sách đóng góp");
 				dialog.setContentText(DongGop_tableDS.getSelectionModel().getSelectedItem().toString());
 				dialog.showAndWait();
+			}else if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 1) {
+				ds_donggop temp = DongGop_tableDS.getSelectionModel().getSelectedItem();
+				displayselectDonggop(temp);
+				int total = getTotalDonggop(temp.getMa_donggop());
+				DongGop_total_label.setText(total + ".$");
 			}
 		});
 		
