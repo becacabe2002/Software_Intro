@@ -668,3 +668,16 @@ values ('2', 'TT2022', curdate(), 20000),
 ('6', 'TT2022', curdate(), 50000);
 
 select sum(tien_donggop) from dong_gop where ma_donggop = 'TT2022';
+
+update thu_phi
+set pay_state = true,
+pay_date = curdate()
+where ma_phi = 'SH2023' and id_hk = 2;
+
+select * from thu_phi where pay_state = true;
+
+select * from thu_phi;
+
+select * from ds_donggop;
+
+select * from dong_gop where ma_donggop = 'TT2022';
