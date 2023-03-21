@@ -1,3 +1,5 @@
+-- @author becacabe2002
+
 drop database if exists cnpm;
 create database cnpm;
 use cnpm;

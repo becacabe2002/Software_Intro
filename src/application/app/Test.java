@@ -1,3 +1,5 @@
+// @author becacabe2002
+
 package application.app;
 
 import application.database.UserSession;
