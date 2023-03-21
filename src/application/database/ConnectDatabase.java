@@ -1,3 +1,5 @@
+// @author becacabe2002
+
 package application.database;
 
 import java.sql.Connection;
